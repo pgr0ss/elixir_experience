@@ -1,0 +1,7 @@
+<div>Problem: <%= @id %></div>
+
+You submitted:
+<pre><%= @code %></pre>
+
+Results:
+<pre><%= @results %></pre>
