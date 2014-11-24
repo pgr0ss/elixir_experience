@@ -4,6 +4,6 @@ Problem: <%= @id %>
 
 <form action="<%= problem_path(:update, @id) %>" method="post">
   <input type="hidden" name="_method" value="PATCH">
-  <input type="textarea" name="code" />
+  <textarea name="code" rows="10" cols="50"></textarea>
   <input type="submit" value="Submit" />
 </form>
