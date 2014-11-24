@@ -3,5 +3,5 @@
 You submitted:
 <pre><%= @code %></pre>
 
-Results:
-<pre><%= @results %></pre>
+Output:
+<pre><%= @output %></pre>

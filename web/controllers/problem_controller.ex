@@ -13,7 +13,7 @@ defmodule ElixirProblems.ProblemController do
   end
 
   def update(conn, %{"id" => id, "code" => code}) do
-    {results, exit_code} = System.cmd("docker", ["run", "trenpixster/elixir", "elixir", "-e", code])
-    render conn, "results.html", id: id, code: code, results: results
+    {output, exit_code} = ElixirProblems.Docker.run(code)
+    render conn, "results.html", id: id, code: code, output: output
   end
 end
