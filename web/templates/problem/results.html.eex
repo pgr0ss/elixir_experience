@@ -1,7 +1,19 @@
+<h3>
+  <%= if @correct do %>
+    Correct!
+  <% else %>
+    Not quite!
+  <% end %>
+</h3>
+
 <div>Problem: <%= @id %></div>
+
+<div>Write an elixir program that outputs 42</div>
 
 You submitted:
 <pre><%= @code %></pre>
 
 Output:
 <pre><%= @output %></pre>
+
+<a href="<%= problem_path(:show, @id) %>">Back to problem</a>

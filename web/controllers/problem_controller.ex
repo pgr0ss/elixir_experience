@@ -14,6 +14,7 @@ defmodule ElixirProblems.ProblemController do
 
   def update(conn, %{"id" => id, "code" => code}) do
     {output, exit_code} = ElixirProblems.Docker.run(code)
-    render conn, "results.html", id: id, code: code, output: output
+    solution = "42"
+    render conn, "results.html", id: id, code: code, output: output, correct: output == solution
   end
 end
