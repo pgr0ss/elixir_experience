@@ -1,6 +1,6 @@
 Problem: <%= @id %>
 
-<div>Write an elixir program that outputs 42</div>
+<div><%= @problem.question %></div>
 
 <form action="<%= problem_path(:update, @id) %>" method="post">
   <input type="hidden" name="_method" value="PATCH">

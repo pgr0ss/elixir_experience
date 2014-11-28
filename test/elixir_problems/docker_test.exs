@@ -1,5 +1,5 @@
 defmodule ElixirProblems.DockerTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   test "run a simple elixir command" do
     {output, exit_code} = ElixirProblems.Docker.run("IO.puts(42)")
