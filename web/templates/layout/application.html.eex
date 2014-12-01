@@ -14,7 +14,7 @@
   <body>
     <div class="container">
       <div class="header">
-        <h3>Elixir Problems</h3>
+        <h3>Elixir Experience</h3>
       </div>
 
       <%= @inner %>
