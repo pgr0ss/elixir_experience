@@ -1,4 +1,4 @@
-# ElixirProblems
+# ElixirExperience
 
 To start your new Phoenix application:
 

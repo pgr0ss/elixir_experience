@@ -1,4 +1,4 @@
-defmodule ElixirProblems.View do
+defmodule ElixirExperience.View do
   use Phoenix.View, root: "web/templates"
 
   # The quoted expression returned by this block is applied
@@ -6,8 +6,8 @@ defmodule ElixirProblems.View do
   using do
     quote do
       # Import common functionality
-      import ElixirProblems.I18n
-      import ElixirProblems.Router.Helpers
+      import ElixirExperience.I18n
+      import ElixirExperience.Router.Helpers
 
       # Use Phoenix.HTML to import all HTML functions (forms, tags, etc)
       use Phoenix.HTML

@@ -1,4 +1,4 @@
-defmodule ElixirProblems.PageController do
+defmodule ElixirExperience.PageController do
   use Phoenix.Controller
 
   plug :action

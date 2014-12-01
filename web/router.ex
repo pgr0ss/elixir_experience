@@ -1,4 +1,4 @@
-defmodule ElixirProblems.Router do
+defmodule ElixirExperience.Router do
   use Phoenix.Router
 
   pipeline :browser do
@@ -13,9 +13,9 @@ defmodule ElixirProblems.Router do
   scope "/" do
     pipe_through :browser # Use the default browser stack
 
-    get "/", ElixirProblems.PageController, :index
+    get "/", ElixirExperience.PageController, :index
 
-    resources "/problems", ElixirProblems.ProblemController
+    resources "/problems", ElixirExperience.ProblemController
   end
 
   # Other scopes may use custom stacks.

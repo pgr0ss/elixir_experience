@@ -1,4 +1,4 @@
-defmodule ElixirProblems.Problem do
+defmodule ElixirExperience.Problem do
   defstruct question: "", answer: ""
 
   @problems_directory "problems"
@@ -12,7 +12,7 @@ defmodule ElixirProblems.Problem do
   defp load_problem(directory) do
     question = read_file(directory, "question.txt")
     answer = read_file(directory, "answer.txt")
-    %ElixirProblems.Problem{question: question, answer: answer}
+    %ElixirExperience.Problem{question: question, answer: answer}
   end
 
   defp read_file(directory, filename) do

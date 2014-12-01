@@ -1,8 +1,8 @@
-defmodule ElixirProblems.ProblemList do
+defmodule ElixirExperience.ProblemList do
   @agent_name __MODULE__
 
   def start_link do
-    Agent.start_link(&ElixirProblems.Problem.load_all/0, name: @agent_name)
+    Agent.start_link(&ElixirExperience.Problem.load_all/0, name: @agent_name)
   end
 
   def get_problem(number) do

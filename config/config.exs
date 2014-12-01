@@ -6,18 +6,18 @@
 use Mix.Config
 
 # Configures the router
-config :phoenix, ElixirProblems.Router,
+config :phoenix, ElixirExperience.Router,
   url: [host: "localhost"],
   http: [port: System.get_env("PORT")],
   secret_key_base: "rtxlimXiIodksivbLNAJOISFf7iGUhby4YcUHpJxQLsheJfK2SB6cR+1sr8Z9bfvtIHiSAtwnX5/kSoGFHmZYw==",
   catch_errors: true,
   debug_errors: false,
-  error_controller: ElixirProblems.PageController
+  error_controller: ElixirExperience.PageController
 
 # Session configuration
-config :phoenix, ElixirProblems.Router,
+config :phoenix, ElixirExperience.Router,
   session: [store: :cookie,
-            key: "_elixir_problems_key"]
+            key: "_elixir_experience_key"]
 
 # Configures Elixir's Logger
 config :logger, :console,

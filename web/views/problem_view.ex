@@ -1,4 +1,4 @@
-defmodule ElixirProblems.ProblemView do
-  use ElixirProblems.View
+defmodule ElixirExperience.ProblemView do
+  use ElixirExperience.View
 
 end
