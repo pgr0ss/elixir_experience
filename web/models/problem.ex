@@ -4,7 +4,9 @@ defmodule ElixirProblems.Problem do
   @problems_directory "problems"
 
   def load_all do
-    Enum.map File.ls!(@problems_directory), fn dir -> load_problem(dir) end
+    File.ls!(@problems_directory)
+    |> Enum.sort
+    |> Enum.map fn dir -> load_problem(dir) end
   end
 
   defp load_problem(directory) do
