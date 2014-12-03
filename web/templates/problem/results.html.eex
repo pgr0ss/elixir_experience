@@ -8,7 +8,7 @@
 
 <div>Problem: <%= @id %></div>
 
-<div>Write an elixir program that outputs 42</div>
+<div><%= @problem.question %></div>
 
 You submitted:
 <pre><%= @code %></pre>
