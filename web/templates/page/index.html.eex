@@ -1,6 +1,6 @@
 <div class="jumbotron">
   <h2>Welcome to the Elixir Experience</h2>
-  <p class="lead">This is a list of problems to help learn elixir.</p>
+  <p class="lead">This is a list of problems to help learn elixir. This site is very young, so if you like what you see, consider helping out on <a href="https://github.com/pgr0ss/elixir_experience">GitHub</a>.</p>
 </div>
 
 <a href="/problems">List of problems</a>
