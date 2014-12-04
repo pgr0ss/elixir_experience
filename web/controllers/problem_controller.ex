@@ -9,13 +9,13 @@ defmodule ElixirExperience.ProblemController do
 
   def show(conn, %{"id" => id_string}) do
     {id, _} = Integer.parse(id_string)
-    render conn, "show.html", id: id, problem: ElixirExperience.ProblemList.get_problem(id)
+    render conn, "show.html", problem: ElixirExperience.ProblemList.get_problem(id)
   end
 
   def update(conn, %{"id" => id_string, "code" => code}) do
     {id, _} = Integer.parse(id_string)
     problem = ElixirExperience.ProblemList.get_problem(id)
     {output, exit_code} = ElixirExperience.Docker.run(code)
-    render conn, "results.html", id: id, problem: problem, code: code, output: output, correct: output == problem.answer
+    render conn, "results.html", problem: problem, code: code, output: output, correct: output == problem.answer
   end
 end

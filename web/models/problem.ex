@@ -1,5 +1,5 @@
 defmodule ElixirExperience.Problem do
-  defstruct question: "", answer: ""
+  defstruct number: 0, question: "", answer: ""
 
   @problems_directory "problems"
 
@@ -10,9 +10,11 @@ defmodule ElixirExperience.Problem do
   end
 
   defp load_problem(directory) do
-    question = read_file(directory, "question.txt")
-    answer = read_file(directory, "answer.txt")
-    %ElixirExperience.Problem{question: question, answer: answer}
+    %ElixirExperience.Problem{
+      number: String.to_integer(directory),
+      question: read_file(directory, "question.txt"),
+      answer: read_file(directory, "answer.txt"),
+    }
   end
 
   defp read_file(directory, filename) do

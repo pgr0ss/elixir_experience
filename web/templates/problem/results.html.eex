@@ -6,7 +6,7 @@
   <% end %>
 </h3>
 
-<h4>Problem: <%= @id %></h4>
+<h4>Problem: <%= @problem.number %></h4>
 
 <pre><%= @problem.question %></pre>
 
@@ -16,4 +16,4 @@ You submitted:
 Output:
 <pre><%= @output %></pre>
 
-<a href="<%= problem_path(:show, @id) %>">Back to problem</a>
+<a href="<%= problem_path(:show, @problem.number) %>">Back to problem</a>

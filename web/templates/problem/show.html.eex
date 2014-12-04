@@ -1,8 +1,8 @@
-<h4>Problem: <%= @id %></h4>
+<h4>Problem: <%= @problem.number %></h4>
 
 <pre><%= @problem.question %></pre>
 
-<form action="<%= problem_path(:update, @id) %>" method="post">
+<form action="<%= problem_path(:update, @problem.number) %>" method="post">
   <input type="hidden" name="_method" value="PATCH">
   <textarea name="code" rows="10" cols="50"></textarea>
   <input type="submit" value="Submit" />
