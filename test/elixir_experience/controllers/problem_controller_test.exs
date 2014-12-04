@@ -2,6 +2,14 @@ defmodule ElixirExperience.ProblemControllerTest do
   use ExUnit.Case, async: true
   use Plug.Test
 
+  test "index" do
+    conn = conn(:get, "/problems") |> ElixirExperience.Router.call([])
+
+    assert conn.status == 200
+
+    assert String.contains?(conn.resp_body, "Problem 3") == true
+  end
+
   test "show" do
     conn = conn(:get, "/problems/1") |> ElixirExperience.Router.call([])
 

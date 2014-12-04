@@ -6,9 +6,9 @@
   <% end %>
 </h3>
 
-<div>Problem: <%= @id %></div>
+<h4>Problem: <%= @id %></h4>
 
-<div><%= @problem.question %></div>
+<pre><%= @problem.question %></pre>
 
 You submitted:
 <pre><%= @code %></pre>

@@ -2,12 +2,9 @@
   <div class="col-lg-6">
     <h4>Problems</h4>
     <ul>
-      <li>
-        <a href="/problems/1">Problem 1</a>
-      </li>
-      <li>
-        <a href="/problems/2">Problem 2</a>
-      </li>
+    <%= Enum.map 1..@number_of_problems, fn(number) -> %>
+      <li><a href="/problems/<%= number %>">Problem <%= number %></a></li>
+    <% end %>
     </ul>
   </div>
 </div>

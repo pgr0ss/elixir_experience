@@ -9,7 +9,7 @@ defmodule ElixirExperience.ProblemTest do
 
   test "load_all" do
     problems = ElixirExperience.Problem.load_all
-    assert Enum.count(problems) == 2
+    assert Enum.count(problems) > 2
 
     first_problem = Enum.at(problems, 0)
     assert String.contains?(first_problem.question, "prints the number 42") == true

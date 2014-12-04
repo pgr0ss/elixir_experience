@@ -1,6 +1,6 @@
-Problem: <%= @id %>
+<h4>Problem: <%= @id %></h4>
 
-<div><%= @problem.question %></div>
+<pre><%= @problem.question %></pre>
 
 <form action="<%= problem_path(:update, @id) %>" method="post">
   <input type="hidden" name="_method" value="PATCH">
