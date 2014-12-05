@@ -30,4 +30,16 @@ defmodule ElixirExperience.DockerTest do
     assert exit_code == 0
     assert output == "hello world"
   end
+
+  test "no access to network" do
+    code = """
+    :inets.start
+    {:ok, result} = :httpc.request(:get, {'http://google.com', []}, [], [])
+    IO.puts elem(result, 2)
+    """
+
+    {output, exit_code} = ElixirExperience.Docker.run(code)
+    assert exit_code == 1
+    assert String.contains?(output, ":failed_connect")
+  end
 end

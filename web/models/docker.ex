@@ -1,7 +1,7 @@
 defmodule ElixirExperience.Docker do
   def run(code) do
     this = self
-    spawn(fn -> send(this, System.cmd("docker", ["run", "--name=\"#{container_name}\"", "trenpixster/elixir", "elixir", "-e", code], stderr_to_stdout: true)) end)
+    spawn(fn -> send(this, System.cmd("docker", ["run", "--net=none", "--name=\"#{container_name}\"", "trenpixster/elixir", "elixir", "-e", code], stderr_to_stdout: true)) end)
     {output, exit_code} = receive do
       any -> any
     after(2000) ->
