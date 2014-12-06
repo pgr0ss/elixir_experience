@@ -16,6 +16,6 @@ defmodule ElixirExperience.ProblemController do
     {id, _} = Integer.parse(id_string)
     problem = ElixirExperience.ProblemList.get_problem(id)
     {output, exit_code} = ElixirExperience.Docker.run(code)
-    render conn, "results.html", problem: problem, code: code, output: output, correct: output == problem.answer
+    render conn, "results.html", problem: problem, code: code, output: output, correct: output == problem.answer, exit_code: exit_code
   end
 end

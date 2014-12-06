@@ -13,7 +13,12 @@
 You submitted:
 <pre><%= @code %></pre>
 
-Output:
+<%= if @exit_code == 0 do %>
+  Output:
+<% else %>
+  What went wrong:
+<% end %>
+
 <pre><%= @output %></pre>
 
 <a href="<%= problem_path(:show, @problem.number) %>">Back to problem</a>
