@@ -4,7 +4,7 @@ defmodule ElixirExperience.Docker do
     container_name = ElixirExperience.RandomStringGenerator.generate
     spawn(fn -> send(this, System.cmd("docker", ["run", "--net=none", "--name=\"#{container_name}\"", "trenpixster/elixir", "elixir", "-e", code], stderr_to_stdout: true)) end)
     {output, exit_code} = receive do
-      any -> any
+      {out, code} when is_binary(out) and is_number(code) -> {out, code}
     after(2000) ->
       System.cmd("docker", ["kill", container_name])
 
