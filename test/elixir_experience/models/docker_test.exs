@@ -36,4 +36,11 @@ defmodule ElixirExperience.DockerTest do
     assert exit_code == 1
     assert String.contains?(output, ":failed_connect")
   end
+
+  test "clean up temporary containers" do
+    before_containers = System.cmd("docker", ["ps", "--all", "--quiet"]) |> elem(0) |> String.split |> Enum.count
+    {_, 0} = ElixirExperience.Docker.run("")
+    after_containers = System.cmd("docker", ["ps", "--all", "--quiet"]) |> elem(0) |> String.split |> Enum.count
+    assert before_containers == after_containers
+  end
 end
