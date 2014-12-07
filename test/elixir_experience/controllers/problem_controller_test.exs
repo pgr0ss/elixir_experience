@@ -23,6 +23,15 @@ defmodule ElixirExperience.ProblemControllerTest do
 
     assert conn.status == 200
 
-    assert String.contains?(conn.resp_body, "<code class=\"elixir\">10</code>") == true
+    assert String.contains?(conn.resp_body, "<pre>10</pre>") == true
+  end
+
+  test "update includes a reason for non-zero exit code" do
+    conn = conn(:put, "/problems/1", %{"code" => ":timer.sleep(3000)"}) |> ElixirExperience.Router.call([])
+
+    assert conn.status == 200
+
+    assert String.contains?(conn.resp_body, "What went wrong:") == true
+    assert String.contains?(conn.resp_body, "<pre>Your code took longer than 2 seconds to run</pre>") == true
   end
 end
