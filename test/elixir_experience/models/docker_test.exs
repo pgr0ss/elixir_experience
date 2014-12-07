@@ -13,6 +13,12 @@ defmodule ElixirExperience.DockerTest do
     assert String.contains?(output, "undefined function garbage/0")
   end
 
+  test "does not block longer than 2 seconds" do
+    {output, exit_code} = ElixirExperience.Docker.run(":timer.sleep(3000)")
+    assert exit_code == 124
+    assert String.contains?(output, "")
+  end
+
   test "run a multiline elixir command" do
     code = """
       x = "hello"
