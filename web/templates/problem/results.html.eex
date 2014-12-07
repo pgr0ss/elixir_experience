@@ -11,9 +11,13 @@
 <pre><%= @problem.question %></pre>
 
 You submitted:
-<pre><%= @code %></pre>
+<pre>
+  <code><%= @code %></code>
+</pre>
 
 Output:
-<pre><%= @output %></pre>
+<pre>
+  <code><%= @output %></code>
+</pre>
 
 <a href="<%= problem_path(:show, @problem.number) %>">Back to problem</a>
