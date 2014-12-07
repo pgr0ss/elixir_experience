@@ -12,12 +12,12 @@
 
 You submitted:
 <pre>
-  <code><%= @code %></code>
+  <code class="elixir"><%= @code %></code>
 </pre>
 
 Output:
 <pre>
-  <code><%= @output %></code>
+  <code class="elixir"><%= @output %></code>
 </pre>
 
 <a href="<%= problem_path(:show, @problem.number) %>">Back to problem</a>

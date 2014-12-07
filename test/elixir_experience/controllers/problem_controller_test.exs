@@ -23,6 +23,6 @@ defmodule ElixirExperience.ProblemControllerTest do
 
     assert conn.status == 200
 
-    assert String.contains?(conn.resp_body, "10") == true
+    assert String.contains?(conn.resp_body, "<code class=\"elixir\">10</code>") == true
   end
 end
