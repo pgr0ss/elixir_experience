@@ -1,5 +1,5 @@
 defmodule ElixirExperience.Docker do
-  def run(code) do
+  def run(code, timeout \\ 5000) do
     this = self
     container_name = ElixirExperience.RandomStringGenerator.generate
 
@@ -7,8 +7,8 @@ defmodule ElixirExperience.Docker do
 
     {output, exit_code} = receive do
       {:shell_result, result} -> result
-    after(2000) ->
-      System.cmd("docker", ["kill", container_name])
+    after(timeout) ->
+      System.cmd("docker", ["kill", container_name], stderr_to_stdout: true)
 
       {"Your code took longer than 2 seconds to run", 124}
     end

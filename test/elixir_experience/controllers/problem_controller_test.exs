@@ -32,7 +32,7 @@ defmodule ElixirExperience.ProblemControllerTest do
     end
 
     it "includes a reason for non-zero exit code" do
-      conn = conn(:put, "/problems/1", %{"code" => ":timer.sleep(3000)"}) |> ElixirExperience.Router.call([])
+      conn = conn(:put, "/problems/1", %{"code" => ":timer.sleep(5000)"}) |> ElixirExperience.Router.call([])
 
       assert conn.status == 200
 
