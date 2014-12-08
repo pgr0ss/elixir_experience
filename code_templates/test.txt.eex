@@ -1,0 +1,15 @@
+ExUnit.start(autorun: false, colors: [enabled: false])
+
+defmodule CodeTest do
+  use ExUnit.Case, async: true
+
+  <%= @code %>
+
+  test "code submission" do
+    <%= @test %>
+  end
+end
+
+%{failures: failure} = ExUnit.run
+
+:erlang.halt(failure)
