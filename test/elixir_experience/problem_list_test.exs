@@ -1,11 +1,17 @@
 defmodule ElixirExperience.ProblemListTest do
-  use ExUnit.Case, async: true
+  use ExSpec, async: true
 
-  test "number_of_problems" do
-    assert ElixirExperience.ProblemList.number_of_problems > 2
+  alias ElixirExperience.ProblemList
+
+  describe "number_of_problems" do
+    it "returns the number of problmes" do
+      assert ProblemList.number_of_problems > 2
+    end
   end
 
-  test "get_problem" do
-    assert ElixirExperience.ProblemList.get_problem(1).answer == "42"
+  describe "get_problem" do
+    it "returns the specific problem" do
+      assert ProblemList.get_problem(1).answer == "42"
+    end
   end
 end

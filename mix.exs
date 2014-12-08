@@ -23,6 +23,7 @@ defmodule ElixirExperience.Mixfile do
   # Type `mix help deps` for examples and options
   defp deps do
     [{:phoenix, github: "phoenixframework/phoenix"},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     {:ex_spec, "~> 0.3.0"}]
   end
 end
