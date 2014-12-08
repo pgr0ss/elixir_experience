@@ -45,7 +45,15 @@ defmodule ElixirExperience.DockerTest do
       assert exit_code == 1
       assert String.contains?(output, ":failed_connect")
     end
+  end
+end
 
+defmodule ElixirExperience.DockerTestNotAsync do
+  use ExSpec, async: false
+
+  alias ElixirExperience.Docker
+
+  describe "run" do
     it "cleans up temporary containers" do
       before_containers = System.cmd("docker", ["ps", "--all", "--quiet"]) |> elem(0) |> String.split |> Enum.count
       {_, 0} = Docker.run("")
