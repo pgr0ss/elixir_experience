@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Stop if any commands fail
+set -e
+
 docker build -t elixir_experience .
 docker run -d -p 4000:4000 --privileged -v /var/lib/docker:/var/lib/docker -e VIRTUAL_HOST=elixirexperience.com,www.elixirexperience.com elixir_experience
 
