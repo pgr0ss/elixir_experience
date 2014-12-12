@@ -1,9 +1,17 @@
 defmodule ElixirExperience.Docker do
+  @image_name "trenpixster/elixir"
+
+  def pull_image do
+    require Logger
+    Logger.info "Pulling Docker image #{@image_name}"
+    {_output, 0} = System.cmd("docker", ["pull", @image_name], stderr_to_stdout: true)
+  end
+
   def run(code, timeout \\ 5000) do
     this = self
     container_name = ElixirExperience.RandomStringGenerator.generate
 
-    spawn(fn -> send(this, {:shell_result, System.cmd("docker", ["run", "--net=none", "--rm", "--name=\"#{container_name}\"", "trenpixster/elixir", "elixir", "-e", code], stderr_to_stdout: true)}) end)
+    spawn(fn -> send(this, {:shell_result, System.cmd("docker", ["run", "--net=none", "--rm", "--name=\"#{container_name}\"", @image_name, "elixir", "-e", code], stderr_to_stdout: true)}) end)
 
     {output, exit_code} = receive do
       {:shell_result, result} -> result

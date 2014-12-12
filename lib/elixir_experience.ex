@@ -6,6 +6,8 @@ defmodule ElixirExperience do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
+    ElixirExperience.Docker.pull_image
+
     children = [
       # Define workers and child supervisors to be supervised
       # worker(ElixirExperience.Worker, [arg1, arg2, arg3])
