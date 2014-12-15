@@ -1,16 +1,10 @@
 defmodule ElixirExperience.Problem do
   defstruct number: 0, question: "", solution: "", tests: []
 
-  @problems_directory "problems"
+  @problems_path "config/problems.exs"
 
   def load_all do
-    File.ls!(@problems_directory)
-    |> Enum.sort
-    |> Enum.map fn dir -> load_problem(dir) end
-  end
-
-  defp load_problem(directory) do
-    [{directory, [problem: config]}] = Path.join([@problems_directory, directory, "config.exs"]) |> Mix.Config.read!
-    config
+    [problems: [problems: problems]] = Mix.Config.read!(@problems_path)
+    problems
   end
 end
