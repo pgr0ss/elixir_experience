@@ -1,15 +1,47 @@
-ExUnit.start(autorun: false, colors: [enabled: false])
+defmodule TestCase do
 
-defmodule CodeTest do
-  use ExUnit.Case, async: true
+  defmacro __using__(_) do
+    quote do
+      import TestCase
 
-  <%= @code %>
+      @tests []
+      @before_compile TestCase
+    end
+  end
 
-  test "code submission" do
-    <%= @test %>
+  defmacro test(description, do: block) do
+    function_name = String.to_atom("test " <> description)
+    body = Macro.to_string(block)
+    quote do
+      @tests [%{name: unquote(function_name), body: Macro.to_string(unquote body)}|@tests]
+      def unquote(function_name)() do
+         unquote(block)
+      end
+    end
+  end
+
+  defmacro __before_compile__(_) do
+    quote do
+      def run do
+        Enum.map(@tests, fn test ->
+           Map.put(test, :success, apply(__MODULE__, test[:name], []))
+        end) |> IO.inspect
+      end
+    end
   end
 end
 
-%{failures: failure} = ExUnit.run
+defmodule ElixirExperienceTest do
+  use TestCase
 
-:erlang.halt(failure)
+  <%= @code %>
+
+  <%= Enum.map Enum.with_index(@tests), fn {test,index} -> %>
+    test "code submission <%= index %>" do
+      <%= test %>
+    end
+  <% end %>
+
+end
+
+ElixirExperienceTest.run

@@ -1,5 +1,5 @@
 defmodule ElixirExperience.Problem do
-  defstruct number: 0, question: "", answer: "", tests: []
+  defstruct number: 0, question: "", solution: "", tests: []
 
   @problems_directory "problems"
 

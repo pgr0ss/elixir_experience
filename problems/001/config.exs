@@ -3,11 +3,15 @@ use Mix.Config
 config :"001",
   problem: %{
     number: 001,
-    answer: "42",
-    question: """
-  Write an elixir program that prints the number 42 to stdout.
+    question: "Write a function called add that takes two numbers and returns their sum",
+    solution: """
+    def add(x, y) do
+      x + y
+    end
     """,
-    solution: "IO.puts 42",
-    runner: "",
-    tests: []
+    tests: [
+      "add(1,2) == 3",
+      "add(2,4) == 6",
+      "add(2,3) == 5"
+    ]
   }

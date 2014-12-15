@@ -1,5 +1,5 @@
 <h3>
-  <%= if @correct do %>
+  <%= if @exit_code == 0 do %>
     Correct!
   <% else %>
     Not quite!
@@ -15,12 +15,9 @@ You submitted:
   <code class="elixir"><%= @code %></code>
 </pre>
 
-<%= if @exit_code == 0 do %>
-  Output:
-<% else %>
+<%= unless @exit_code == 0 do %>
   What went wrong:
+  <pre><%= @output %></pre>
 <% end %>
-
-<pre><%= @output %></pre>
 
 <a href="<%= problem_path(:show, @problem.number) %>">Back to problem</a>

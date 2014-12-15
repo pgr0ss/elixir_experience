@@ -1,9 +1,9 @@
 use Mix.Config
+alias ElixirExperience.Problem
 
 config :"003",
-  problem: %{
+  problem: %Problem{
     number: 003,
-    answer: "[1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765]",
     question: """
     Write a Fibonacci module with a fib function that takes a number and return a list of size n of fibonacci numbers, e.g:
 
@@ -20,15 +20,12 @@ config :"003",
         end
       end
     """,
-    runner: """
-      Fibonacci.fib(20) |> inspect |> IO.puts
-    """,
     tests: [
       """
-        assert Fibonacci.fib(2) == [1, 1]
+        Fibonacci.fib(2) == [1, 1]
       """,
       """
-        assert Fibonacci.fib(5) == [1, 1, 2, 3, 5]
+        Fibonacci.fib(5) == [1, 1, 2, 3, 5]
       """
     ]
   }
