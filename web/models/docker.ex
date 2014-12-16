@@ -11,7 +11,12 @@ defmodule ElixirExperience.Docker do
 
   def run(code, problem, timeout \\ 5000) do
     this = self
-    EEx.eval_file(@test_template, assigns: [code: code, tests: problem.tests]) |> evaluate(this, timeout) |> parse_output
+    before_test = ">>>" <> ElixirExperience.RandomStringGenerator.generate <> "<<<"
+    after_test = ">>>" <> ElixirExperience.RandomStringGenerator.generate <> "<<<"
+
+    EEx.eval_file(@test_template,
+      assigns: [code: code, tests: problem.tests, before_test: before_test, after_test: after_test])
+      |> evaluate(this, timeout) |> parse_output(before_test,after_test)
   end
 
   defp evaluate(code, this, timeout) do
@@ -29,23 +34,34 @@ defmodule ElixirExperience.Docker do
     {String.strip(output), exit_code}
   end
 
-  defp parse_output({output, 0}) do
-    output = Regex.replace(~r/^nofile.*\n/, output, "")
-    {results, _} = Code.eval_string(output)
+  defp parse_output({output, 0}, before_test, after_test) do
+    %{"output" => parsed_output} = Regex.named_captures(~r/.*#{before_test}(?<output>.*)#{after_test}/, output)
 
-    failures = Enum.reject(results, fn result -> result[:success] end)
+    if parsed_output == "" do
+      failures = []
+    else
+      failures = capture_failures(parsed_output)
+    end
+
     case failures do
       [] -> {"", 0}
-      _ -> {"Failures:\n\n" <> (Enum.map(failures, fn failed ->
-        {failure, _} = Code.eval_string(failed[:body])
-        "assert " <> failure
+      _ -> {"Failures:\n\n" <> (Enum.map(failures, fn %{"success" => success, "test" => failed} ->
+        "assert " <> (failed |> Macro.unescape_string |> String.strip)
       end) |> Enum.join("\n")), 1}
     end
   end
 
-  defp parse_output({output, 1}) do
+  defp parse_output({output, 1}, _, _) do
     {Regex.replace(~r/(nofile:\d+: )|(#{@test_name}\.)|(\n.*)/, output, ""), 1}
   end
 
-  defp parse_output(result), do: result
+  defp parse_output(result, _, _), do: result
+
+  defp capture_failures(parsed_output) do
+    String.split(parsed_output, ~r/\\n\ *\\n/)
+      |> Enum.map(fn string -> Regex.named_captures(~r/(?<success>\w+),(?<test>.*\z)/m, string) end)
+      |> Enum.reject(fn(%{"success" => success, "test" => test}) -> String.contains?(success, "true")
+        nil -> true
+      end)
+  end
 end

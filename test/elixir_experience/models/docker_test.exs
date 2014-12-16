@@ -154,7 +154,7 @@ defmodule ElixirExperience.DockerTest do
 
       {reason, exit_code} = Docker.run(code, problem)
       assert exit_code == 1
-      assert reason == "Failures:\n\nassert Fibonacci.fib(5) == [1, 1, 2, 3, 5]\nassert Fibonacci.fib(3) == [1, 1, 2]"
+      assert reason == "Failures:\n\nassert Fibonacci.fib(3) == [1, 1, 2]\nassert Fibonacci.fib(5) == [1, 1, 2, 3, 5]"
     end
 
     Enum.each ElixirExperience.Problem.load_all, fn(problem) ->
