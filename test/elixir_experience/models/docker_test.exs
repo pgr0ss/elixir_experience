@@ -44,6 +44,30 @@ defmodule ElixirExperience.DockerTest do
       assert output == "** (UndefinedFunctionError) undefined function: Experience.num2list/1"
     end
 
+    it "renders output correctly for multiple test failures" do
+      code = """
+        defmodule Experience do
+          def num2list(n) do
+          end
+        end
+      """
+      problem =  %Problem{
+        question: """
+        Write an elixir program that prints the number 42 to stdout.
+        """,
+        number: 001,
+        tests: [
+          "Experience.num2list(1) == \"1\"",
+          "Experience.num2list(10) == \"1,2,3,4,5,6,7,8,9,10\"",
+        ]
+      }
+
+      {output, exit_code} = Docker.run(code, problem)
+      assert exit_code == 1
+      expected_output = "Failures:\n\nassert Experience.num2list(1) == \"1\"\nassert Experience.num2list(10) == \"1,2,3,4,5,6,7,8,9,10\""
+      assert output == expected_output
+    end
+
     it "does not fail when there is an unused variable" do
       code = """
         defmodule Experience do
