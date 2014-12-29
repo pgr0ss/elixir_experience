@@ -55,7 +55,7 @@ defmodule ElixirExperience.Docker do
 
     case failures do
       [] -> {"", 0}
-      _ -> {"Failures:\n\n" <> (Enum.map(failures, fn %{"success" => success, "test" => failed} ->
+      _ -> {"Failures:\n\n" <> (Enum.map(failures, fn %{"success" => _success, "test" => failed} ->
         "assert " <> (failed |> Macro.unescape_string |> String.strip)
       end) |> Enum.join("\n")), 1}
     end
@@ -70,7 +70,7 @@ defmodule ElixirExperience.Docker do
   defp capture_failures(parsed_output) do
     String.split(parsed_output, ~r/\\n\ *\\n/)
       |> Enum.map(fn string -> Regex.named_captures(~r/(?<success>\w+),(?<test>.*\z)/m, string) end)
-      |> Enum.reject(fn(%{"success" => success, "test" => test}) -> String.contains?(success, "true")
+      |> Enum.reject(fn(%{"success" => success, "test" => _test}) -> String.contains?(success, "true")
         nil -> true
       end)
   end
