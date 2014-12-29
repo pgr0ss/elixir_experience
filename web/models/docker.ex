@@ -4,9 +4,16 @@ defmodule ElixirExperience.Docker do
   @test_name "ElixirExperienceTest"
 
   def pull_image do
-    require Logger
-    Logger.info "Pulling Docker image #{@image_name}"
-    {_output, 0} = System.cmd("docker", ["pull", @image_name], stderr_to_stdout: true)
+    unless image_exists? do
+      require Logger
+      Logger.info "Pulling Docker image #{@image_name}"
+      {_output, 0} = System.cmd("docker", ["pull", @image_name], stderr_to_stdout: true)
+    end
+  end
+
+  defp image_exists? do
+    {output, 0} = System.cmd("docker", ["images"], stderr_to_stdout: true)
+    String.contains?(output, @image_name)
   end
 
   def run(code, problem, timeout \\ 5000) do
