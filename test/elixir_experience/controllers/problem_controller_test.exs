@@ -23,10 +23,8 @@ defmodule ElixirExperience.ProblemControllerTest do
   describe "update" do
     it "runs code" do
       conn = conn(:put, "/problems/2", %{"code" => """
-        defmodule Experience do
-          def num2list(n) do
-            Enum.join(1..n, \",\")
-          end
+        def num2list(n) do
+          Enum.join(1..n, \",\")
         end
       """}) |> ElixirExperience.Router.call([])
 
@@ -37,16 +35,14 @@ defmodule ElixirExperience.ProblemControllerTest do
 
     it "includes a reason for non-zero exit code" do
       conn = conn(:put, "/problems/2", %{"code" => """
-        defmodule Experience do
-          def num2list do
-          end
+        def num2list do
         end
       """}) |> ElixirExperience.Router.call([])
 
       assert conn.status == 200
       assert String.contains?(conn.resp_body, "Not quite!")
       assert String.contains?(conn.resp_body, "What went wrong:")
-      assert String.contains?(conn.resp_body, "<pre>** (UndefinedFunctionError) undefined function: Experience.num2list/1</pre>")
+      assert String.contains?(conn.resp_body, "<pre>** (UndefinedFunctionError) undefined function: num2list/1</pre>")
     end
   end
 end

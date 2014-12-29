@@ -11,7 +11,7 @@ defmodule ElixirExperience.ProblemListTest do
 
   describe "get_problem" do
     it "returns the specific problem" do
-      assert ProblemList.get_problem(1).question == "Write a function called add that takes two numbers and returns their sum"
+      assert String.starts_with?(ProblemList.get_problem(1).question, "Write a function called add that takes two numbers and returns their sum")
     end
   end
 end
