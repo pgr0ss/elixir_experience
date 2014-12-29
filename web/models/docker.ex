@@ -1,12 +1,15 @@
 defmodule ElixirExperience.Docker do
+  require Logger
+
   @image_name "trenpixster/elixir"
   @test_template "code_templates/test.txt.eex"
   @test_name "ElixirExperienceTest"
 
   def pull_image do
-    unless image_exists? do
-      require Logger
-      Logger.info "Pulling Docker image #{@image_name}"
+    if image_exists? do
+      Logger.info "Docker image is present: #{@image_name}"
+    else
+      Logger.info "Pulling Docker image: #{@image_name}"
       {_output, 0} = System.cmd("docker", ["pull", @image_name], stderr_to_stdout: true)
     end
   end
