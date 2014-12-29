@@ -5,10 +5,9 @@ defmodule ElixirExperience.ProblemTest do
 
   describe "struct" do
     it "has fields" do
-      problem = %Problem{number: 5, question: "some question", answer: "some answer"}
+      problem = %Problem{number: 5, question: "some question"}
       assert problem.number == 5
       assert problem.question == "some question"
-      assert problem.answer == "some answer"
     end
   end
 
@@ -19,8 +18,7 @@ defmodule ElixirExperience.ProblemTest do
 
       first_problem = Enum.at(problems, 0)
       assert first_problem.number == 1
-      assert String.contains?(first_problem.question, "prints the number 42") == true
-      assert first_problem.answer == "42"
+      assert first_problem.question == "Write a function called add that takes two numbers and returns their sum"
     end
   end
 end

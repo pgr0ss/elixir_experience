@@ -15,7 +15,7 @@ defmodule ElixirExperience.ProblemController do
   def update(conn, %{"id" => id_string, "code" => code}) do
     {id, _} = Integer.parse(id_string)
     problem = ElixirExperience.ProblemList.get_problem(id)
-    {output, exit_code} = ElixirExperience.Docker.run(code)
-    render conn, "results.html", problem: problem, code: code, output: output, correct: output == problem.answer, exit_code: exit_code
+    {output, exit_code} = ElixirExperience.Docker.run(code, problem)
+    render conn, "results.html", problem: problem, code: code, exit_code: exit_code, output: output
   end
 end

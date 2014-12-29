@@ -7,7 +7,6 @@ defmodule ElixirExperience.ProblemControllerTest do
       conn = conn(:get, "/problems") |> ElixirExperience.Router.call([])
 
       assert conn.status == 200
-
       assert String.contains?(conn.resp_body, "Problem 3") == true
     end
   end
@@ -17,27 +16,37 @@ defmodule ElixirExperience.ProblemControllerTest do
       conn = conn(:get, "/problems/1") |> ElixirExperience.Router.call([])
 
       assert conn.status == 200
-
-      assert String.contains?(conn.resp_body, "prints the number 42") == true
+      assert String.contains?(conn.resp_body, "Write a function called add that takes two numbers and returns their sum")
     end
   end
 
   describe "update" do
-    it "runs the code" do
-      conn = conn(:put, "/problems/1", %{"code" => "IO.puts 10"}) |> ElixirExperience.Router.call([])
+    it "runs code" do
+      conn = conn(:put, "/problems/2", %{"code" => """
+        defmodule Experience do
+          def num2list(n) do
+            Enum.join(1..n, \",\")
+          end
+        end
+      """}) |> ElixirExperience.Router.call([])
 
       assert conn.status == 200
-
-      assert String.contains?(conn.resp_body, "<pre>10</pre>") == true
+      assert String.contains?(conn.resp_body, "Correct!")
+      refute String.contains?(conn.resp_body, "What went wrong:")
     end
 
     it "includes a reason for non-zero exit code" do
-      conn = conn(:put, "/problems/1", %{"code" => ":timer.sleep(5000)"}) |> ElixirExperience.Router.call([])
+      conn = conn(:put, "/problems/2", %{"code" => """
+        defmodule Experience do
+          def num2list do
+          end
+        end
+      """}) |> ElixirExperience.Router.call([])
 
       assert conn.status == 200
-
-      assert String.contains?(conn.resp_body, "What went wrong:") == true
-      assert String.contains?(conn.resp_body, "<pre>Your code took longer than 2 seconds to run</pre>") == true
+      assert String.contains?(conn.resp_body, "Not quite!")
+      assert String.contains?(conn.resp_body, "What went wrong:")
+      assert String.contains?(conn.resp_body, "<pre>** (UndefinedFunctionError) undefined function: Experience.num2list/1</pre>")
     end
   end
 end
