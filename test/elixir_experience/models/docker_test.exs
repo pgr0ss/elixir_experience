@@ -6,90 +6,58 @@ defmodule ElixirExperience.DockerTest do
 
   describe "run" do
     it "runs a bad code and captures output" do
-      code = "garbage"
-      problem =  %Problem{
-        question: """
-        Write an elixir program that prints the number 42 to stdout.
-        """,
-        number: 001,
-        tests: []
-      }
-
-      {output, exit_code} = Docker.run(code, problem)
+      {output, exit_code} = Docker.run("garbage", %Problem{})
       assert exit_code == 1
       assert output == "** (CompileError) undefined function garbage/0"
     end
 
     it "runs code without a function and does not include ElixirExperienceTest in its output" do
       code = """
-        defmodule Experience do
-          def num2list do
-          end
+        def foo do
         end
       """
       problem =  %Problem{
-        question: """
-        Write an elixir program that prints the number 42 to stdout.
-        """,
-        number: 001,
         tests: [
-          """
-          Experience.num2list(10) == \"1,2,3,4,5,6,7,8,9,10\"
-          """
+          ["foo(10)", "1"]
         ]
       }
 
       {output, exit_code} = Docker.run(code, problem)
       assert exit_code == 1
-      assert output == "** (UndefinedFunctionError) undefined function: Experience.num2list/1"
+      assert output == "** (UndefinedFunctionError) undefined function: foo/1"
     end
 
     it "renders output correctly for multiple test failures" do
       code = """
-        defmodule Experience do
-          def num2list(n) do
-          end
+        def foo(n) do
         end
       """
       problem =  %Problem{
-        question: """
-        Write an elixir program that prints the number 42 to stdout.
-        """,
-        number: 001,
         tests: [
-          "Experience.num2list(1) == \"1\"",
-          "Experience.num2list(10) == \"1,2,3,4,5,6,7,8,9,10\"",
+          ["foo(1)", "1"],
+          ["foo(10)", "1,2,3,4,5,6,7,8,9,10"],
         ]
       }
 
       {output, exit_code} = Docker.run(code, problem)
       assert exit_code == 1
-      expected_output = "Failures:\n\nassert Experience.num2list(1) == \"1\"\nassert Experience.num2list(10) == \"1,2,3,4,5,6,7,8,9,10\""
-      assert output == expected_output
+      assert output == "Passed:\n\n\nFailed:\n  assert foo(1) == \"1\" #=> nil\n  assert foo(10) == \"1,2,3,4,5,6,7,8,9,10\" #=> nil"
     end
 
     it "does not fail when there is an unused variable" do
       code = """
-        defmodule Experience do
-          def num2list(n) do
-          end
+        def foo(n) do
         end
       """
       problem =  %Problem{
-        question: """
-        Write an elixir program that prints the number 42 to stdout.
-        """,
-        number: 001,
         tests: [
-          """
-          Experience.num2list(10) == \"1,2,3,4,5,6,7,8,9,10\"
-          """
+          ["foo(10)", "expected"]
         ]
       }
 
       {output, exit_code} = Docker.run(code, problem)
       assert exit_code == 1
-      assert output == "Failures:\n\nassert Experience.num2list(10) == \"1,2,3,4,5,6,7,8,9,10\""
+      assert output == "Passed:\n\n\nFailed:\n  assert foo(10) == \"expected\" #=> nil"
     end
 
     it "fails code with invalid syntax" do
@@ -98,29 +66,14 @@ defmodule ElixirExperience.DockerTest do
           a
         end
       """
-      problem =  %Problem{
-        question: """
-        Write an elixir program that prints the number 42 to stdout.
-        """,
-        number: 001,
-        tests: []
-      }
 
-      {output, exit_code} = Docker.run(code, problem)
+      {output, exit_code} = Docker.run(code, %Problem{})
       assert exit_code == 1
       assert output == "** (SyntaxError) unexpected token: end"
     end
 
     it "does not block longer than timeout" do
-      problem =  %Problem{
-        question: """
-        Write an elixir program that prints the number 42 to stdout.
-        """,
-        number: 001,
-        tests: []
-      }
-
-      {output, exit_code} = Docker.run(":timer.sleep(1000)", problem, 10)
+      {output, exit_code} = Docker.run(":timer.sleep(1000)", %Problem{}, 10)
       assert exit_code == 124
       assert output == "Your code took longer than 0.01 seconds to run"
     end
@@ -131,54 +84,29 @@ defmodule ElixirExperience.DockerTest do
       {:ok, result} = :httpc.request(:get, {'http://google.com', []}, [], [])
       IO.puts elem(result, 2)
       """
-      problem =  %Problem{
-        question: """
-        Write an elixir program that prints the number 42 to stdout.
-        """,
-        number: 001,
-        tests: []
-      }
 
-      {output, exit_code} = Docker.run(code, problem)
+      {output, exit_code} = Docker.run(code, %Problem{})
       assert exit_code == 1
       assert String.contains?(output, ":failed_connect")
     end
 
     it "fails code that doesn't pass test" do
       code = """
-        defmodule Fibonacci do
-          def fib(_) do
-            [1,1]
-          end
+        def fib(_) do
+          [1,1]
         end
       """
       problem =  %Problem{
-        question: """
-        Write a Fibonacci module with a fib function that takes a number and return a list of size n of fibonacci numbers, e.g:
-
-        defmodule Fibonacci do
-          def fib(num) do
-            #your code goes here
-          end
-        end
-        """,
-        number: 003,
         tests: [
-          """
-            Fibonacci.fib(2) == [1, 1]
-          """,
-          """
-            Fibonacci.fib(3) == [1, 1, 2]
-          """,
-          """
-            Fibonacci.fib(5) == [1, 1, 2, 3, 5]
-          """
+            ["fib(2)", [1, 1]],
+            ["fib(3)", [1, 1, 2]],
+            ["fib(5)", [1, 1, 2, 3, 5]],
         ]
       }
 
-      {reason, exit_code} = Docker.run(code, problem)
+      {output, exit_code} = Docker.run(code, problem)
       assert exit_code == 1
-      assert reason == "Failures:\n\nassert Fibonacci.fib(3) == [1, 1, 2]\nassert Fibonacci.fib(5) == [1, 1, 2, 3, 5]"
+      assert output == "Passed:\n  assert fib(2) == [1, 1] #=> [1, 1]\n\nFailed:\n  assert fib(3) == [1, 1, 2] #=> [1, 1]\n  assert fib(5) == [1, 1, 2, 3, 5] #=> [1, 1]"
     end
 
     Enum.each ElixirExperience.Problem.load_all, fn(problem) ->

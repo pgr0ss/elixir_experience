@@ -24,14 +24,14 @@ defmodule ElixirExperience.Docker do
     before_test = ">>>" <> ElixirExperience.RandomStringGenerator.generate <> "<<<"
     after_test = ">>>" <> ElixirExperience.RandomStringGenerator.generate <> "<<<"
 
-    EEx.eval_file(@test_template,
-      assigns: [code: code, tests: problem.tests, before_test: before_test, after_test: after_test])
-      |> evaluate(this, timeout) |> parse_output(before_test,after_test)
+    EEx.eval_file(@test_template, assigns: [code: code, tests: problem.tests, before_test: before_test, after_test: after_test])
+      |> evaluate(this, timeout)
+      |> parse_output(before_test,after_test)
   end
 
   defp evaluate(code, this, timeout) do
     container_name = ElixirExperience.RandomStringGenerator.generate
-    spawn(fn -> send(this, {:shell_result, System.cmd("docker", ["run", "--net=none", "--rm", "--name=\"#{container_name}\"", "trenpixster/elixir", "elixir", "-e", code], stderr_to_stdout: true)}) end)
+    spawn(fn -> send(this, {:shell_result, System.cmd("docker", ["run", "--net=none", "--rm", "--name=\"#{container_name}\"", @image_name, "elixir", "-e", code], stderr_to_stdout: true)}) end)
 
     {output, exit_code} = receive do
       {:shell_result, result} -> result
@@ -47,17 +47,18 @@ defmodule ElixirExperience.Docker do
   defp parse_output({output, 0}, before_test, after_test) do
     %{"output" => parsed_output} = Regex.named_captures(~r/.*#{before_test}(?<output>.*)#{after_test}/, output)
 
-    if parsed_output == "" do
-      failures = []
-    else
-      failures = capture_failures(parsed_output)
-    end
+    results = String.split(parsed_output, ~r/\\n\ *\\n/)
+      |> Enum.map(fn line -> Regex.named_captures(~r/(?<expected>.+?)@@@(?<actual>.+?)@@@(?<test>.*\z)/m, line) end)
+      |> Enum.reject(fn result -> result == nil end)
+      |> Enum.map(fn captures -> parse_captures(captures) end)
 
-    case failures do
-      [] -> {"", 0}
-      _ -> {"Failures:\n\n" <> (Enum.map(failures, fn %{"success" => _success, "test" => failed} ->
-        "assert " <> (failed |> Macro.unescape_string |> String.strip)
-      end) |> Enum.join("\n")), 1}
+    {successes, failures} = Enum.partition(results, fn %{passed: passed} -> passed end)
+
+    if Enum.count(failures) == 0 do
+      {"", 0}
+    else
+      output = "Passed:\n#{Enum.map(successes, &format_test/1) |> Enum.join("\n")}\n\nFailed:\n#{Enum.map(failures, &format_test/1) |> Enum.join("\n")}"
+      {output, 1}
     end
   end
 
@@ -67,11 +68,13 @@ defmodule ElixirExperience.Docker do
 
   defp parse_output(result, _, _), do: result
 
-  defp capture_failures(parsed_output) do
-    String.split(parsed_output, ~r/\\n\ *\\n/)
-      |> Enum.map(fn string -> Regex.named_captures(~r/(?<success>\w+),(?<test>.*\z)/m, string) end)
-      |> Enum.reject(fn(%{"success" => success, "test" => _test}) -> String.contains?(success, "true")
-        nil -> true
-      end)
+  defp parse_captures(captures) do
+    expected = captures["expected"] |> String.strip |> String.replace("\\", "")
+    actual = captures["actual"] |> String.strip |> String.replace("\\", "")
+    %{expected: expected, actual: actual, test: captures["test"], passed: expected == actual}
+  end
+
+  defp format_test(%{expected: expected, actual: actual, test: test}) do
+    "  assert #{test} == #{expected} #=> #{actual}"
   end
 end

@@ -1,12 +1,11 @@
 defmodule ElixirExperienceTest do
   <%= @code %>
 
-  @tests <%= inspect @tests %>
   def run do
     """
       <%= @before_test %>
-      <%= Enum.map @tests, fn test -> %>
-        #{__MODULE__.<%= String.strip(test) %>}, <%= test %>
+      <%= Enum.map @tests, fn [test, expected_result] -> %>
+        <%= inspect(expected_result) %>@@@#{inspect __MODULE__.<%= String.strip(test) %>}@@@<%= test %>
       <% end %>
       <%= @after_test %>
     """
