@@ -17,7 +17,9 @@ You submitted:
 
 <%= unless @exit_code == 0 do %>
   What went wrong:
-  <pre><%= @output %></pre>
+  <pre>
+    <code class="elixir"><%= @output %></code>
+  </pre>
 <% end %>
 
 <a href="<%= problem_path(:show, @problem.number) %>">Back to problem</a>

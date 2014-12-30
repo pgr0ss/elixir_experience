@@ -42,7 +42,7 @@ defmodule ElixirExperience.ProblemControllerTest do
       assert conn.status == 200
       assert String.contains?(conn.resp_body, "Not quite!")
       assert String.contains?(conn.resp_body, "What went wrong:")
-      assert String.contains?(conn.resp_body, "<pre>** (UndefinedFunctionError) undefined function: num2list/1</pre>")
+      assert String.contains?(conn.resp_body, "<code class=\"elixir\">** (UndefinedFunctionError) undefined function: num2list/1</code>")
     end
   end
 end
