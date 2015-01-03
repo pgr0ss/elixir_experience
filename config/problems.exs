@@ -141,20 +141,15 @@ config :problems,
     """,
     solution: """
     def find_missing_char(xs) do
-      [x|ys] = Enum.sort(xs)
-      cond do
-        x > ?a -> ?a
-        x > ?A && x < 91 -> ?A
-        true -> find_missing_char_helper(ys, x)
+      [x|_] = Enum.sort(xs)
+      chars = cond do
+        x >= ?a -> Enum.to_list(?a..?z) -- xs
+        true -> Enum.to_list(?A..?Z) -- xs
       end
-    end
-
-    defp find_missing_char_helper(xs, _) when length(xs) == 1, do: nil
-    defp find_missing_char_helper([x|xs], y) do
-      if (y + 1) != x do
-        y + 1
-      else
-        find_missing_char_helper(xs, x)
+      
+      case chars do
+        [] -> nil
+        [x] -> x
       end
     end
     """,
