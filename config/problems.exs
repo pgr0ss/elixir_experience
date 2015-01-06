@@ -146,7 +146,7 @@ config :problems,
         x >= ?a -> Enum.to_list(?a..?z) -- xs
         true -> Enum.to_list(?A..?Z) -- xs
       end
-      
+
       case chars do
         [] -> nil
         [x] -> x
@@ -186,6 +186,46 @@ config :problems,
       ["checksum(\"Make it simple. Make it memorable. Make it inviting to look at. Make it fun to read.\")", 13],
       ["checksum(\"What makes things memorable is that they are meaningful, significant, colorful.\")", 26],
       ["checksum(\"Good design is making something intelligible and memorable. Great design is making something memorable and meaningful.\")", 68],
+    ]
+  },
+  %Problem{
+    number: 010,
+    question: """
+    Write a function join that takes a tuple(with elements that of type String, Integer, Float, Atom, CharList) and a separator and returns a string of the elements of the tuple joined by the separator, e.g:
+
+    join({1,2,3}, " ") #=> "1 2 3"
+    """,
+    solution: """
+    def join(tuple, separator) do
+      tuple |> Tuple.to_list |> Enum.join(separator)
+    end
+    """,
+    tests: [
+      ["join({1,2,3}, \" \")", "1 2 3"],
+      ["join({:a, :b, :c, :d, :e, :f}, \",\")", "a,b,c,d,e,f"],
+      ["join({'2015', '01', '05'}, \"-\")", "2015-01-05"],
+    ]
+  },
+  %Problem{
+    number: 011,
+    question: """
+    Given a list of strings, return a list of list of strings of anagrams, i.e. each element of the returned list is a list of words that are anagrams among them, e.g:
+
+    input = ["stars", "mary", "rats", "tars", "army", "banana"]
+    anagrams(input) #=> [["rats", "tars"], ["army", "mary"], ["stars"], ["banana"]]
+    """,
+    solution: """
+    def anagrams(input) do
+      Enum.reduce(input, %{}, fn(word, acc) ->
+        key = word |> to_char_list |> Enum.sort
+        Dict.update(acc, key, [word], &([word|&1]))
+      end) |> Dict.values
+    end
+    """,
+    tests: [
+      ["anagrams([\"sleet\", \"slete\", \"steel\", \"wran\", \"warn\", \"vowel\", \"wolve\"]) |> Enum.sort", [["steel", "slete", "sleet"], ["warn", "wran"], ["wolve", "vowel"]]],
+     ["anagrams([\"tower\", \"wrote\", \"revisit\", \"visiter\", \"review\", \"viewer\"]) |> Enum.sort", [["viewer", "review"], ["visiter", "revisit"], ["wrote", "tower"]]],
+     ["anagrams([\"reweigh\", \"weigher\", \"rove\", \"over\", \"mixer\", \"remix\", \"misread\", \"sidearm\", \"agree\", \"eager\"]) |> Enum.sort", [["eager", "agree"], ["over", "rove"], ["remix", "mixer"], ["sidearm", "misread"], ["weigher", "reweigh"]]],
     ]
   },
 ]
