@@ -1,6 +1,6 @@
 <h4>Problem: <%= @problem.number %></h4>
 
-<pre><%= @problem.question %></pre>
+<%= markdown_to_html @problem.question %>
 
 <form action="<%= problem_path(:update, @problem.number) %>" method="post">
   <input type="hidden" name="_method" value="PATCH">

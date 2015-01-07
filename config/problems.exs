@@ -7,8 +7,9 @@ config :problems,
     number: 001,
     question: """
     Write a function called add that takes two numbers and returns their sum, e.g.:
-
-    add(1, 2) #=> 3
+    ```elixir
+      add(1, 2) #=> 3
+    ```
     """,
     solution: """
     def add(x, y) do
@@ -25,8 +26,9 @@ config :problems,
     number: 002,
     question: """
     Write a function num2list that takes a number and returns a string from 1 up to the number joined with commas, e.g:
-
-    num2list(10) #=> \"1,2,3,4,5,6,7,8,9,10\"
+    ```elixir
+      num2list(10) #=> \"1,2,3,4,5,6,7,8,9,10\"
+    ```
     """,
     solution: """
     def num2list(n) do
@@ -42,8 +44,9 @@ config :problems,
     number: 003,
     question: """
     Write a fib function that takes a number and return a list of the first n of fibonacci numbers, e.g:
-
-    fib(5) #=> [1, 1, 2, 3, 5]
+    ```elixir
+      fib(5) #=> [1, 1, 2, 3, 5]
+    ```
     """,
     solution: """
       def fib(num) do

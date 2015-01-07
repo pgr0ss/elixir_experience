@@ -18,7 +18,7 @@ defmodule ElixirExperience.ProblemTest do
 
       first_problem = Enum.at(problems, 0)
       assert first_problem.number == 1
-      assert String.starts_with?(first_problem.question, "Write a function called add that takes two numbers and returns their sum")
+      assert String.starts_with?(first_problem.question, "<p>Write a function called add that takes two numbers and returns their sum, e.g.:</p>\n<pre><code class=\"elixir\">add(1, 2) #=&gt; 3</code></pre>")
     end
   end
 end

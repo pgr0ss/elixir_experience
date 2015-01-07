@@ -8,7 +8,7 @@
 
 <h4>Problem: <%= @problem.number %></h4>
 
-<pre><%= @problem.question %></pre>
+<%= markdown_to_html @problem.question %>
 
 You submitted:
 <pre>
