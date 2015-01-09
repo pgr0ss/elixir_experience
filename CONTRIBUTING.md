@@ -4,9 +4,8 @@
 - Create a feature branch: `git checkout -b feature_branch`
 - Make your changes (see how to [Propose Problems](#propose-problems) below)
 - Make sure the tests pass: `mix test`
-- Create an [issue](https://github.com/pgr0ss/elixir_experience/issues/new)
 - Push your feature branch: `git push origin feature_branch`
-- Submit a pull request referencing the issue created
+- Submit a pull request with your feature branch
 
 ### Propose Problems
 Problems require the following:
