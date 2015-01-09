@@ -17,6 +17,7 @@ defmodule ElixirExperience.ProblemControllerTest do
 
       assert conn.status == 200
       assert String.contains?(conn.resp_body, "Write a function called add that takes two numbers and returns their sum")
+      assert String.contains?(conn.resp_body, "<pre><code class=\"elixir\">add(1, 2) #=&gt; 3</code></pre>") == true
     end
   end
 

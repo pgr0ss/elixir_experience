@@ -5,6 +5,8 @@ defmodule ElixirExperience.Problem do
 
   def load_all do
     [problems: [problems: problems]] = Mix.Config.read!(@problems_path)
-    problems
+    Enum.map(problems, fn problem ->
+      %ElixirExperience.Problem{problem | question: Earmark.to_html(problem.question)}
+    end)
   end
 end
