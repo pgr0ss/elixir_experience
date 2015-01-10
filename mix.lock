@@ -1,9 +1,8 @@
 %{"cowboy": {:hex, :cowboy, "1.0.0"},
-  "cowlib": {:hex, :cowlib, "1.0.0"},
+  "cowlib": {:hex, :cowlib, "1.0.1"},
   "earmark": {:hex, :earmark, "0.1.12"},
   "ex_spec": {:hex, :ex_spec, "0.3.0"},
-  "linguist": {:hex, :linguist, "0.1.3"},
-  "phoenix": {:git, "git://github.com/phoenixframework/phoenix.git", "5615dea0083994fb6a14faab6d9ce7cffcb7870e", []},
-  "plug": {:hex, :plug, "0.8.2"},
-  "poison": {:hex, :poison, "1.2.0"},
+  "phoenix": {:hex, :phoenix, "0.7.2"},
+  "plug": {:hex, :plug, "0.9.0"},
+  "poison": {:hex, :poison, "1.3.0"},
   "ranch": {:hex, :ranch, "1.0.0"}}

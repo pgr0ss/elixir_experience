@@ -11,10 +11,10 @@ use Mix.Config
 # Where those two env variables point to a file on
 # disk for the key and cert.
 
-config :phoenix, ElixirExperience.Router,
+config :elixir_experience, ElixirExperience.Endpoint,
   url: [host: "example.com"],
   http: [port: System.get_env("PORT")],
-  secret_key_base: "rtxlimXiIodksivbLNAJOISFf7iGUhby4YcUHpJxQLsheJfK2SB6cR+1sr8Z9bfvtIHiSAtwnX5/kSoGFHmZYw=="
+  secret_key_base: "VFeTGrUj5L5TxuLlyFI/ldw+JhyPLdlRG0TOR33mzyBSKNdw8pCK7fKLNdcr0pad"
 
 config :logger,
   level: :info

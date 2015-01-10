@@ -5,19 +5,12 @@
 # is restricted to this project.
 use Mix.Config
 
-# Configures the router
-config :phoenix, ElixirExperience.Router,
+# Configures the endpoint
+config :elixir_experience, ElixirExperience.Endpoint,
   url: [host: "localhost"],
   http: [port: System.get_env("PORT")],
-  secret_key_base: "rtxlimXiIodksivbLNAJOISFf7iGUhby4YcUHpJxQLsheJfK2SB6cR+1sr8Z9bfvtIHiSAtwnX5/kSoGFHmZYw==",
-  catch_errors: true,
-  debug_errors: false,
-  error_controller: ElixirExperience.PageController
-
-# Session configuration
-config :phoenix, ElixirExperience.Router,
-  session: [store: :cookie,
-            key: "_elixir_experience_key"]
+  secret_key_base: "VFeTGrUj5L5TxuLlyFI/ldw+JhyPLdlRG0TOR33mzyBSKNdw8pCK7fKLNdcr0pad",
+  debug_errors: false
 
 # Configures Elixir's Logger
 config :logger, :console,

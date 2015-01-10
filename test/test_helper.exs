@@ -1,2 +1,2 @@
-ElixirExperience.Router.start
+ElixirExperience.Endpoint.start
 ExUnit.start

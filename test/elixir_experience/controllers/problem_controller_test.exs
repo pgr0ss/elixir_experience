@@ -4,7 +4,7 @@ defmodule ElixirExperience.ProblemControllerTest do
 
   describe "index" do
     it "shows a list of problems" do
-      conn = conn(:get, "/problems") |> ElixirExperience.Router.call([])
+      conn = conn(:get, "/problems") |> ElixirExperience.Endpoint.call([])
 
       assert conn.status == 200
       assert String.contains?(conn.resp_body, "Problem 3") == true
@@ -13,7 +13,7 @@ defmodule ElixirExperience.ProblemControllerTest do
 
   describe "show" do
     it "shows a problem" do
-      conn = conn(:get, "/problems/1") |> ElixirExperience.Router.call([])
+      conn = conn(:get, "/problems/1") |> ElixirExperience.Endpoint.call([])
 
       assert conn.status == 200
       assert String.contains?(conn.resp_body, "Write a function called add that takes two numbers and returns their sum")
@@ -27,7 +27,7 @@ defmodule ElixirExperience.ProblemControllerTest do
         def num2list(n) do
           Enum.join(1..n, \",\")
         end
-      """}) |> ElixirExperience.Router.call([])
+      """}) |> ElixirExperience.Endpoint.call([])
 
       assert conn.status == 200
       assert String.contains?(conn.resp_body, "Correct!")
@@ -38,7 +38,7 @@ defmodule ElixirExperience.ProblemControllerTest do
       conn = conn(:put, "/problems/2", %{"code" => """
         def num2list do
         end
-      """}) |> ElixirExperience.Router.call([])
+      """}) |> ElixirExperience.Endpoint.call([])
 
       assert conn.status == 200
       assert String.contains?(conn.resp_body, "Not quite!")

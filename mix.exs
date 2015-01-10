@@ -22,9 +22,9 @@ defmodule ElixirExperience.Mixfile do
   #
   # Type `mix help deps` for examples and options
   defp deps do
-    [{:phoenix, github: "phoenixframework/phoenix"},
-     {:earmark, "~> 0.1.12"},
+    [{:phoenix, "~> 0.7.2"},
      {:cowboy, "~> 1.0"},
-     {:ex_spec, "~> 0.3.0"}]
+     {:earmark, "~> 0.1.12"},
+     {:ex_spec, "~> 0.3.0", only: :test}]
   end
 end

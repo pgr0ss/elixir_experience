@@ -6,7 +6,6 @@ defmodule ElixirExperience.View do
   using do
     quote do
       # Import common functionality
-      import ElixirExperience.I18n
       import ElixirExperience.Router.Helpers
 
       # Use Phoenix.HTML to import all HTML functions (forms, tags, etc)
