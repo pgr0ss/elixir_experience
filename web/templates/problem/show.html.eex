@@ -2,7 +2,7 @@
 
 <%= safe @problem.question %>
 
-<form action="<%= problem_path(:update, @problem.number) %>" method="post">
+<form action="<%= problem_path(@conn, :update, @problem.number) %>" method="post">
   <input type="hidden" name="_method" value="PATCH">
   <textarea name="code" rows="10" cols="50"></textarea>
   <input type="submit" value="Submit" />

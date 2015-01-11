@@ -11,6 +11,7 @@ defmodule ElixirExperience do
     children = [
       # Define workers and child supervisors to be supervised
       # worker(ElixirExperience.Worker, [arg1, arg2, arg3])
+      worker(ElixirExperience.Endpoint, []),
       worker(ElixirExperience.ProblemList, [])
     ]
 

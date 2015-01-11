@@ -3,7 +3,7 @@
     <h4>Problems</h4>
     <ul>
     <%= Enum.map 1..@number_of_problems, fn(number) -> %>
-      <li><a href="/problems/<%= number %>">Problem <%= number %></a></li>
+      <li><a href=<%= problem_path(@conn, :show, number) %>">Problem <%= number %></a></li>
     <% end %>
     </ul>
   </div>

@@ -22,4 +22,4 @@ You submitted:
   </pre>
 <% end %>
 
-<a href="<%= problem_path(:show, @problem.number) %>">Back to problem</a>
+<a href="<%= problem_path(@conn, :show, @problem.number) %>">Back to problem</a>
