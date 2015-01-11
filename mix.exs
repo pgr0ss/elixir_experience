@@ -15,7 +15,7 @@ defmodule ElixirExperience.Mixfile do
   # Type `mix help compile.app` for more information
   def application do
     [mod: {ElixirExperience, []},
-     applications: [:phoenix, :cowboy, :logger]]
+     applications: [:phoenix, :cowboy, :logger, :oauth2ex]]
   end
 
   # Specifies your project dependencies
@@ -25,6 +25,7 @@ defmodule ElixirExperience.Mixfile do
     [{:phoenix, "~> 0.8.0"},
      {:cowboy, "~> 1.0"},
      {:earmark, "~> 0.1.12"},
-     {:ex_spec, "~> 0.3.0", only: :test}]
+     {:ex_spec, "~> 0.3.0", only: :test},
+     {:oauth2ex, github: "parroty/oauth2ex"}]
   end
 end

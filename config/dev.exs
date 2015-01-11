@@ -6,3 +6,7 @@ config :elixir_experience, ElixirExperience.Endpoint,
 
 # Enables code reloading for development
 config :phoenix, :code_reloader, true
+
+config :elixir_experience, :github_oauth,
+  client_id: "8564df8d0cc88bff6796",
+  client_secret: "61bba5af5544c1af5200c001aad91cd8827917b3"

@@ -32,6 +32,7 @@
           <ul class="nav nav-pills pull-right">
             <li><a href="/">Home</a></li>
             <li><a href="<%= problem_path(@conn, :index) %>">List of Problems</a></li>
+            <li><a href="<%= github_login_url %>">Login with GitHub</a></li>
           </ul>
         </nav>
         <h3>Elixir Experience</h3>

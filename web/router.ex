@@ -15,6 +15,7 @@ defmodule ElixirExperience.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", ElixirExperience.PageController, :index
+    get "/github_oauth", ElixirExperience.GitHubOAuthController, :oauth
 
     resources "/problems", ElixirExperience.ProblemController
   end
