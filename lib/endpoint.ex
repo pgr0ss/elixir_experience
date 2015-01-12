@@ -19,10 +19,9 @@ defmodule ElixirExperience.Endpoint do
   plug Plug.Head
 
   plug Plug.Session,
-    store: :cookie,
-    key: "_elixir_experience_key",
-    signing_salt: "ScD/SmcX",
-    encryption_salt: "DP6nFwDP"
+    store: :ets,
+    key: "_elixir_experience_session",
+    table: :session
 
   plug :router, ElixirExperience.Router
 end
