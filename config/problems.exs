@@ -151,7 +151,7 @@ config :problems,
 
     ```elixir
       find_missing_char('ZCGBMHFJYTODIUQARVEWPLNKX') #=> ?S
-      find_missing_char('abcdefghijklmnopqrstuvwxyz') #=> nil
+    find_missing_char('abcdefghijklmnopqrstuvwxyz') #=> nil
     ```
     """,
     solution: """
@@ -233,7 +233,7 @@ config :problems,
 
     ```elixir
       input = ["stars", "mary", "rats", "tars", "army", "banana"]
-      anagrams(input) #=> [["rats", "tars"], ["army", "mary"], ["stars"], ["banana"]]
+    anagrams(input) #=> [["rats", "tars"], ["army", "mary"], ["stars"], ["banana"]]
     ```
     """,
     solution: """
