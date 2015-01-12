@@ -20,6 +20,7 @@ defmodule ElixirExperience.Router do
 
     get "/", ElixirExperience.PageController, :index
     get "/github_oauth", ElixirExperience.GitHubOAuthController, :oauth
+    get "/logout", ElixirExperience.GitHubOAuthController, :logout
 
     resources "/problems", ElixirExperience.ProblemController
   end
