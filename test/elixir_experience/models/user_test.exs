@@ -25,4 +25,13 @@ defmodule ElixirExperience.UserTest do
       end
     end
   end
+
+  describe "find_by_id" do
+    it "finds a user by id" do
+      with_transaction do
+        user = %User{} |> ElixirExperience.Repo.insert
+        assert User.find_by_id(user.id) == user
+      end
+    end
+  end
 end

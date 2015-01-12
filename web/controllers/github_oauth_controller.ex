@@ -4,9 +4,13 @@ defmodule ElixirExperience.GitHubOAuthController do
   plug :action
 
   alias ElixirExperience.GitHubOAuth
+  alias ElixirExperience.User
 
   def oauth(conn, %{"code" => code}) do
     user = GitHubOAuth.user(code)
-    text conn, inspect(user)
+
+    conn
+    |> put_session(:user_id, User.insert_unless_exists(user).id)
+    |> redirect(to: "/")
   end
 end

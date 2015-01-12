@@ -7,12 +7,16 @@ defmodule ElixirExperience.Router do
     plug :fetch_flash
   end
 
+  pipeline :auth do
+    plug ElixirExperience.Plug.CurrentUser
+  end
+
   pipeline :api do
     plug :accepts, ~w(json)
   end
 
   scope "/" do
-    pipe_through :browser # Use the default browser stack
+    pipe_through [:browser, :auth]
 
     get "/", ElixirExperience.PageController, :index
     get "/github_oauth", ElixirExperience.GitHubOAuthController, :oauth

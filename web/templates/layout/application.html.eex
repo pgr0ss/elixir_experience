@@ -32,7 +32,16 @@
           <ul class="nav nav-pills pull-right">
             <li><a href="/">Home</a></li>
             <li><a href="<%= problem_path(@conn, :index) %>">List of Problems</a></li>
-            <li><a href="<%= github_login_url %>">Login with GitHub</a></li>
+            <li>
+            <%= if @current_user do %>
+              <div style="padding: 10px 15px;">
+                <img src="<%= @current_user.avatar_url %>" width=30 height=30 />
+                <%= @current_user.login %>
+              </div>
+            <% else %>
+              <a href="<%= github_login_url %>">Login with GitHub</a>
+            <% end %>
+            </li>
           </ul>
         </nav>
         <h3>Elixir Experience</h3>

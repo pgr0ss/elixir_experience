@@ -13,14 +13,19 @@ defmodule ElixirExperience.User do
   end
 
   def insert_unless_exists(user) do
-    unless find_by_github_id(user.github_id) do
-      Repo.insert(user)
-    end
+    find_by_github_id(user.github_id) || Repo.insert(user)
   end
 
   def find_by_github_id(github_id) do
     query = from u in User,
       where: u.github_id == ^github_id
+
+    Repo.one(query)
+  end
+
+  def find_by_id(id) do
+    query = from u in User,
+      where: u.id == ^id
 
     Repo.one(query)
   end
