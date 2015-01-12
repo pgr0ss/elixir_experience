@@ -63,7 +63,9 @@ config :problems,
     question: """
     Write a concat function that takes two strings(binaries) and concantenates them, e.g:
 
-    concat("foo", "bar") #=> "foobar"
+    ```elixir
+      concat("foo", "bar") #=> "foobar"
+    ```
     """,
     solution: """
       def concat(word1, word2) do
@@ -80,7 +82,10 @@ config :problems,
     number: 005,
     question: """
     Write a function palindrome? that checks if a given string is a palindrome, A palindrome is a word, phrase, number, or other sequence of characters which reads the same backward or forward.  e.g
-    palindrome?("madam") #=> true
+
+    ```elixir
+      palindrome?("madam") #=> true
+    ```
     """,
     solution: """
     def palindrome?(word) do
@@ -99,7 +104,10 @@ config :problems,
     number: 006,
     question: """
     Write a function anagram? that checks if two given strings are anagrams, An anagram is a type of word play, the result of rearranging the letters of a word or phrase to produce a new word or phrase, using all the original letters exactly once
+
+    ```elixir
     anagram?("rose", "sore") #=> true
+    ```
     """,
     solution: """
     def anagram?(word1, word2) do
@@ -120,7 +128,9 @@ config :problems,
     question: """
     Write an extract_bytes function that takes a binary and a non-negative integer and extracts the number of bytes specified by the integer, e.g:
 
-    extract_bytes(<<102, 111, 111, 32, 98, 97, 114, 0, 0, 0, 1>>, 4) #=> "foo "
+    ```elixir
+      extract_bytes(<<102, 111, 111, 32, 98, 97, 114, 0, 0, 0, 1>>, 4) #=> "foo "
+    ```
     """,
     solution: """
     def extract_bytes(bin, int) do
@@ -139,8 +149,10 @@ config :problems,
     question: """
     Write a find_missing_char function that takes a same case alphabetical char list and returns the missing char if there is one otherwise returns nil, e.g:
 
-    find_missing_char('ZCGBMHFJYTODIUQARVEWPLNKX') #=> ?S
-    find_missing_char('abcdefghijklmnopqrstuvwxyz') #=> nil
+    ```elixir
+      find_missing_char('ZCGBMHFJYTODIUQARVEWPLNKX') #=> ?S
+      find_missing_char('abcdefghijklmnopqrstuvwxyz') #=> nil
+    ```
     """,
     solution: """
     def find_missing_char(xs) do
@@ -168,8 +180,11 @@ config :problems,
   %Problem{
     number: 009,
     question: """
-    Write a checksum function, that computes a parity byte checksum of a string (http://en.wikipedia.org/wiki/Checksum#Parity_byte_or_parity_word), e.g:
-    checksum("Elixir is fun.") #=> 95
+    Write a checksum function, that computes a [parity byte](http://en.wikipedia.org/wiki/Checksum#Parity_byte_or_parity_word) checksum of a string, e.g:
+
+    ```elixir
+      checksum("Elixir is fun.") #=> 95
+    ```
     """,
     solution: """
     use Bitwise
@@ -196,7 +211,9 @@ config :problems,
     question: """
     Write a function join that takes a tuple(with elements that of type String, Integer, Float, Atom, CharList) and a separator and returns a string of the elements of the tuple joined by the separator, e.g:
 
-    join({1,2,3}, " ") #=> "1 2 3"
+    ```elixir
+      join({1,2,3}, " ") #=> "1 2 3"
+    ```
     """,
     solution: """
     def join(tuple, separator) do
@@ -214,8 +231,10 @@ config :problems,
     question: """
     Given a list of strings, return a list of list of strings of anagrams, i.e. each element of the returned list is a list of words that are anagrams among them, e.g:
 
-    input = ["stars", "mary", "rats", "tars", "army", "banana"]
-    anagrams(input) #=> [["rats", "tars"], ["army", "mary"], ["stars"], ["banana"]]
+    ```elixir
+      input = ["stars", "mary", "rats", "tars", "army", "banana"]
+      anagrams(input) #=> [["rats", "tars"], ["army", "mary"], ["stars"], ["banana"]]
+    ```
     """,
     solution: """
     def anagrams(input) do
