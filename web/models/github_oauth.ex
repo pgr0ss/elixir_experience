@@ -28,7 +28,7 @@ defmodule ElixirExperience.GitHubOAuth do
     %ElixirExperience.User{
       avatar_url: fields["avatar_url"],
       email: fields["email"],
-      id: fields["id"],
+      github_id: fields["id"],
       login: fields["login"],
     }
   end

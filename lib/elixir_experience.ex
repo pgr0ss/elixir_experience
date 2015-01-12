@@ -12,7 +12,8 @@ defmodule ElixirExperience do
       # Define workers and child supervisors to be supervised
       # worker(ElixirExperience.Worker, [arg1, arg2, arg3])
       worker(ElixirExperience.Endpoint, []),
-      worker(ElixirExperience.ProblemList, [])
+      worker(ElixirExperience.ProblemList, []),
+      worker(ElixirExperience.Repo, []),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

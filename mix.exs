@@ -25,7 +25,9 @@ defmodule ElixirExperience.Mixfile do
     [{:phoenix, "~> 0.8.0"},
      {:cowboy, "~> 1.0"},
      {:earmark, "~> 0.1.12"},
+     {:ecto, "~> 0.4"},
      {:ex_spec, "~> 0.3.0", only: :test},
-     {:oauth2ex, github: "parroty/oauth2ex"}]
+     {:oauth2ex, github: "parroty/oauth2ex"},
+     {:postgrex, ">= 0.0.0"}]
   end
 end
