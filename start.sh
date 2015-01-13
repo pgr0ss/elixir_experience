@@ -3,7 +3,27 @@
 # Stop if any commands fail
 set -e
 
-docker build -t elixir_experience .
-docker run -d -p 4000:4000 --privileged -v /var/lib/docker:/var/lib/docker -e VIRTUAL_HOST=elixirexperience.com,www.elixirexperience.com elixir_experience
+docker run \
+  --name postgres \
+  -d \
+  -e POSTGRES_USER=elixir_experience \
+  postgres:9.4
 
-docker run -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock jwilder/nginx-proxy
+docker build -t elixir_experience .
+
+docker run \
+  --name elixir \
+  -d \
+  --link postgres:postgres \
+  -p 4000:4000 \
+  --privileged \
+  -v /var/lib/docker:/var/lib/docker \
+  -e VIRTUAL_HOST=elixirexperience.com,www.elixirexperience.com \
+  elixir_experience
+
+docker run \
+  --name nginx \
+  -d \
+  -p 80:80 \
+  -v /var/run/docker.sock:/tmp/docker.sock \
+  jwilder/nginx-proxy

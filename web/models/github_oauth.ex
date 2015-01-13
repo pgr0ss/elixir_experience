@@ -20,7 +20,7 @@ defmodule ElixirExperience.GitHubOAuth do
       authorize_url: "https://github.com/login/oauth/authorize",
       token_url:     "https://github.com/login/oauth/access_token",
       scope:         "",
-      callback_url:  redirect_url,
+      callback_url:  app_config[:redirect_url],
     )
   end
 
@@ -31,10 +31,6 @@ defmodule ElixirExperience.GitHubOAuth do
       github_id: fields["id"],
       login: fields["login"],
     }
-  end
-
-  defp redirect_url do
-    ElixirExperience.Router.Helpers.git_hub_o_auth_url(ElixirExperience.Endpoint, :oauth)
   end
 
   defp app_config do
