@@ -250,4 +250,70 @@ config :problems,
      ["anagrams([\"reweigh\", \"weigher\", \"rove\", \"over\", \"mixer\", \"remix\", \"misread\", \"sidearm\", \"agree\", \"eager\"]) |> Enum.sort", [["eager", "agree"], ["over", "rove"], ["remix", "mixer"], ["sidearm", "misread"], ["weigher", "reweigh"]]],
     ]
   },
+  %Problem{
+    number: 012,
+    question: """
+    Write a function `to_hex` that takes an base 10 integer returns a string value of it in [hexadecimal](http://en.wikipedia.org/wiki/Hexadecimal), e.g:
+
+    ```elixir
+      to_hex(16) #=> "10"
+      to_hex(1023) #=> "3FF"
+    ```
+    """,
+    solution: """
+    def to_hex(integer) do
+      Integer.to_char_list(integer, 16) |> to_string
+    end
+    """,
+    tests: [
+      ["to_hex(16)", "10"],
+      ["to_hex(1023)", "3FF"],
+      ["to_hex(34510)", "86CE"],
+      ["to_hex(2015)", "7DF"],
+      ["to_hex(5433559)", "52E8D7"],
+    ]
+  },
+  %Problem{
+    number: 013,
+    question: """
+    Write a function `convert` that takes a string and an list of words and returns a new string with every word in the list that occurs in the original string capitalized
+
+    ```elixir
+      convert("People from england are called english", ["england", "english"]) #=> "People from England are called English"
+    ```
+    """,
+    solution: """
+    def convert(string, words) do
+      Enum.reduce(words, string, fn(word, acc) -> String.replace(acc, word, String.capitalize(word)) end)
+    end
+    """,
+    tests: [
+      ["convert(\"People from england are called english\", [\"england\", \"english\"])", "People from England are called English"],
+      ["convert(\"jose valim is the author of elixir\", [\"jose\", \"valim\", \"elixir\"])", "Jose Valim is the author of Elixir"],
+      ["convert(\"The longest war in history was between the netherlands and the isles of scilly\", [\"netherlands\", \"isles\", \"scilly\"])", "The longest war in history was between the Netherlands and the Isles of Scilly"],
+      ["convert(\"albert einstein was offered the role of israel’s second president, albert einstein refused\", [\"albert\", \"einstein\", \"israel\", \"president\"])", "Albert Einstein was offered the role of Israel’s second President, Albert Einstein refused"],
+      ["convert(\"harvard university was founded before calculus was invented\", [\"harvard\", \"university\"])", "Harvard University was founded before calculus was invented"],
+    ]
+  },
+  %Problem{
+    number: 014,
+    question: """
+    Write a function `sort` that takes a list of string that contains numbers and sorts them by the number in each string
+
+    ```elixir
+      sort(["STRING: 1", "STRING: 05", "STRING: 20", "STRING: 4", "STRING: 3"]) #=> ["STRING: 20", "STRING: 05", "STRING: 4", "STRING: 3", "STRING: 1"]
+    ```
+    """,
+    solution: """
+    def sort(words) do
+      extract_int = fn(word) -> String.replace(word, ~r/[^\\d]/, "") |> String.to_integer end
+      Enum.sort(words, fn word1, word2 -> extract_int.(word1) > extract_int.(word2) end)
+    end
+    """,
+    tests: [
+      ["sort([\"STRING: 1\", \"STRING: 05\", \"STRING: 20\", \"STRING: 4\", \"STRING: 3\"])", ["STRING: 20", "STRING: 05", "STRING: 4", "STRING: 3", "STRING: 1"]],
+      ["sort([\"A321\", \"B111\", \"C123\"])", ["A321", "C123", "B111"]],
+      ["sort([\"Foo 36\", \"Bar 34\", \"Bazz 57\"])", ["Bazz 57", "Foo 36", "Bar 34"]]
+    ]
+  },
 ]
