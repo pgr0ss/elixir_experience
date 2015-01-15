@@ -316,4 +316,82 @@ config :problems,
       ["sort([\"Foo 36\", \"Bar 34\", \"Bazz 57\"])", ["Bazz 57", "Foo 36", "Bar 34"]]
     ]
   },
+  %Problem{
+    number: 015,
+    question: """
+    Erlang [`:gen_tcp.connect/3`](http://erlang.org/doc/man/gen_tcp.html#connect-3)'s first argument(`Address`) is either an [`:inet.ip_address()`](http://erlang.org/doc/man/inet.html#type-ip_address) which is a tuple of octets or an [`:inet.hostname()`](http://erlang.org/doc/man/inet.html#type-hostname) which is a char_list. Write a function `format_host` that takes a string a returns a valid format for `:gen_tcp.connect`
+
+    ```elixir
+      format_host("192.168.0.1") #=> {192, 168, 0, 1}
+      format_host("www.example.com") #=> 'www.example.com'
+    ```
+    """,
+    solution: """
+    def format_host(host) do
+      case Regex.scan(~r/\\d+/, host) do
+        [] -> to_char_list(host)
+        match_data -> match_data |> List.flatten |> Enum.map(&String.to_integer/1) |> List.to_tuple
+      end
+    end
+    """,
+    tests: [
+      ["format_host(\"192.168.0.1\")", {192, 168, 0, 1}],
+      ["format_host(\"www.example.com\")", 'www.example.com'],
+      ["format_host(\"172.168.0.251\")", {172, 168, 0, 251}],
+      ["format_host(\"www.foo.com\")", 'www.foo.com'],
+    ]
+  },
+  %Problem{
+    number: 016,
+    question: """
+    Write a function `pmap` that takes a list, a function and an optional timeout in milliseconds, and  a new collection, where each item is the result of invoking function in parallel on each corresponding item of the list, when the function take longer than the specified timeout the atom `:timeout` represents the result, e.g:
+
+    ```elixir
+      pmap([1,2,3], fn(x) -> :timer.sleep(3); x + 1 end, 2000) #=> [2,3,:timeout]
+    ```
+    """,
+    solution: """
+    def pmap(collection, fun, timeout \\\\ 3000) do
+      collection
+      |> Enum.map(fn item -> Task.async(fn -> fun.(item) end) end)
+      |> Enum.map(fn item ->
+        try do
+          Task.await(item, timeout)
+        catch
+          :exit, _ -> :timeout
+        end
+      end)
+    end
+    """,
+    tests: [
+      ["pmap([1,2,3], fn(x) -> :timer.sleep(30); x + 1 end, 20)", [:timeout,3,4]],
+      ["pmap([1,2,3], fn(x) -> x + 1 end, 3)", [2,3,4]],
+      ["pmap([1,2,3], fn(x) -> :timer.sleep(300); x + 6 end, 200)", [:timeout,8,9]],
+      ["pmap([1,2,3], fn(x) -> x * 5 end, 3)", [5,10,15]],
+    ]
+  },
+  %Problem{
+    number: 017,
+    question: """
+    Write a function `hex_to_string` that takes an hexadecimal and returns its string representation, e.g:
+
+    ```elixir
+    hex_to_string("2E656D697420656C7474696C206F73202C736B6F6F6220796E616D206F53") #=> "So many books, so little time."
+    ```
+    """,
+    solution: """
+    def hex_to_string(hex) do
+      hex |>
+        to_char_list |>
+        Enum.chunk(2) |>
+        Enum.map(fn(byte) -> to_string(byte) |> String.to_integer(16) end) |>
+        Enum.reduce("", fn(byte, acc) -> <<byte>> <> acc end)
+    end
+    """,
+    tests: [
+      ["hex_to_string(\"2E656D697420656C7474696C206F73202C736B6F6F6220796E616D206F53\")", "So many books, so little time."],
+      ["hex_to_string(\"2E646C726F7720656874206E6920656573206F74206873697720756F7920746168742065676E61686320656874206542\")", "Be the change that you wish to see in the world."],
+      ["hex_to_string(\"2E6C616576657220746F6E2073656F6420656D697420746168742073746572636573206F6E20657261206572656854\")", "There are no secrets that time does not reveal."],
+    ]
+  },
 ]
