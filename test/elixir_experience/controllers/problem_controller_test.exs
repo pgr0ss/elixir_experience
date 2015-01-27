@@ -2,6 +2,8 @@ defmodule ElixirExperience.ProblemControllerTest do
   use ExSpec, async: true
   use Plug.Test
 
+  alias ElixirExperience.User
+
   describe "index" do
     it "shows a list of problems" do
       conn = conn(:get, "/problems") |> ElixirExperience.Endpoint.call([])
@@ -44,6 +46,25 @@ defmodule ElixirExperience.ProblemControllerTest do
       assert String.contains?(conn.resp_body, "Not quite!")
       assert String.contains?(conn.resp_body, "What went wrong:")
       assert String.contains?(conn.resp_body, "<code class=\"elixir\">** (UndefinedFunctionError) undefined function: num2list/1</code>")
+    end
+
+    it "creates a solution on success" do
+      user = %User{} |> ElixirExperience.Repo.insert
+
+      conn = conn(:put, "/problems/1", %{"code" => """
+        def add(x,y), do: x + y
+      """})
+      |> assign(:current_user, user)
+      |> ElixirExperience.Endpoint.call([])
+
+      assert conn.status == 200
+      assert String.contains?(conn.resp_body, "Correct!")
+
+      found_user = User.find_by_id(user.id)
+      solution = found_user.user_solutions |> Enum.at(0)
+
+      assert solution.problem_number == 1
+      assert solution.code == "def add(x,y), do: x + y"
     end
   end
 end

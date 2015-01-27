@@ -4,7 +4,7 @@ defmodule ElixirExperience.Repo.Migrations.CreateUsers do
   def up do
     execute """
       CREATE TABLE users (
-        id serial primary key,
+        id serial PRIMARY KEY,
         avatar_url text,
         email text,
         github_id bigint,

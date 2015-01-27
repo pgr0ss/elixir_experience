@@ -4,12 +4,24 @@ defmodule ElixirExperience.User do
 
   alias ElixirExperience.Repo
   alias ElixirExperience.User
+  alias ElixirExperience.UserSolution
 
   schema "users" do
     field :avatar_url, :string
     field :email, :string
     field :github_id, :integer
     field :login, :string
+
+    has_many :user_solutions, UserSolution
+  end
+
+  def create_solution(user, problem, code) do
+    user_solution = %UserSolution{
+      user_id: user.id,
+      problem_number: problem.number,
+      code: String.strip(code),
+    }
+    Repo.insert(user_solution)
   end
 
   def insert_unless_exists(user) do
@@ -25,7 +37,8 @@ defmodule ElixirExperience.User do
 
   def find_by_id(id) do
     query = from u in User,
-      where: u.id == ^id
+      where: u.id == ^id,
+      preload: [:user_solutions]
 
     Repo.one(query)
   end

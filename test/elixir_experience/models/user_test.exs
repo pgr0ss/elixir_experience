@@ -2,6 +2,7 @@ defmodule ElixirExperience.UserTest do
   use ExSpec, async: true
   import ElixirExperience.TransactionTestHelper, only: [with_transaction: 1]
 
+  alias ElixirExperience.Problem
   alias ElixirExperience.User
 
   describe "insert_unless_exists" do
@@ -29,8 +30,39 @@ defmodule ElixirExperience.UserTest do
   describe "find_by_id" do
     it "finds a user by id" do
       with_transaction do
+        user = %User{login: "me"} |> ElixirExperience.Repo.insert
+        assert User.find_by_id(user.id).login == "me"
+      end
+    end
+  end
+
+  describe "create_solution" do
+    it "creates UserSolutions" do
+      with_transaction do
         user = %User{} |> ElixirExperience.Repo.insert
-        assert User.find_by_id(user.id) == user
+
+        User.create_solution(user, %Problem{number: 1}, "foo")
+        User.create_solution(user, %Problem{number: 2}, "bar")
+
+        found_user = User.find_by_id(user.id)
+
+        solution_1 = found_user.user_solutions |> Enum.at(0)
+        solution_2 = found_user.user_solutions |> Enum.at(1)
+
+        assert solution_1.problem_number == 1
+        assert solution_1.code == "foo"
+
+        assert solution_2.problem_number == 2
+        assert solution_2.code == "bar"
+      end
+    end
+
+    it "strips the code" do
+      with_transaction do
+        user = %User{} |> ElixirExperience.Repo.insert
+        User.create_solution(user, %Problem{number: 1}, "   foo\t\n")
+        solution = User.find_by_id(user.id).user_solutions |> Enum.at(0)
+        assert solution.code == "foo"
       end
     end
   end
