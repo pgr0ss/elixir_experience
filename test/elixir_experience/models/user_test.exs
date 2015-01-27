@@ -8,10 +8,10 @@ defmodule ElixirExperience.UserTest do
   describe "insert_unless_exists" do
     it "inserts a record" do
       with_transaction do
-        user = %User{github_id: 10}
+        user = %User{github_id: 10, login: "me"}
         User.insert_unless_exists(user)
         found_user = User.find_by_github_id(10)
-        assert user == %User{found_user | id: nil}
+        assert found_user.login == "me"
       end
     end
 
@@ -63,6 +63,16 @@ defmodule ElixirExperience.UserTest do
         User.create_solution(user, %Problem{number: 1}, "   foo\t\n")
         solution = User.find_by_id(user.id).user_solutions |> Enum.at(0)
         assert solution.code == "foo"
+      end
+    end
+  end
+
+  describe "timestamps" do
+    it "records timestamps" do
+      with_transaction do
+        user = %User{} |> ElixirExperience.Repo.insert
+        assert user.inserted_at != nil
+        assert user.updated_at != nil
       end
     end
   end

@@ -8,7 +8,9 @@ defmodule ElixirExperience.Repo.Migrations.CreateUsers do
         avatar_url text,
         email text,
         github_id bigint,
-        login text
+        login text,
+        inserted_at timestamp NOT NULL,
+        updated_at timestamp NOT NULL
       )
     """
 

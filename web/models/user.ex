@@ -12,6 +12,8 @@ defmodule ElixirExperience.User do
     field :github_id, :integer
     field :login, :string
 
+    timestamps
+
     has_many :user_solutions, UserSolution
   end
 

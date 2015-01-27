@@ -5,6 +5,8 @@ defmodule ElixirExperience.UserSolution do
     field :problem_number, :integer
     field :code, :string
 
+    timestamps
+
     belongs_to :user, User
   end
 end
