@@ -7,7 +7,7 @@ defmodule ElixirExperience.CodeRunnerTest do
   describe "parse_output" do
     it "parses an error" do
       output = "** (CompileError) nofile:2: undefined function garbage/0\n    (stdlib) lists.erl:1352: :lists.mapfoldl/3"
-      assert CodeRunner.parse_output({output, 1}, nil, nil) == {"** (CompileError) undefined function garbage/0", 1}
+      assert CodeRunner.parse_output({output, 1}, nil, nil) == {:failed, "** (CompileError) undefined function garbage/0"}
     end
 
     it "parses code without a function and does not include ElixirExperienceTest in the output" do
@@ -20,26 +20,26 @@ defmodule ElixirExperience.CodeRunnerTest do
   (stdlib) erl_eval.erl:407: :erl_eval.expr/5
   (elixir) lib/code.ex:140: Code.eval_string/3
 """
-      assert CodeRunner.parse_output({output, 1}, nil, nil) == {"** (UndefinedFunctionError) undefined function: foo/1", 1}
+      assert CodeRunner.parse_output({output, 1}, nil, nil) == {:failed, "** (UndefinedFunctionError) undefined function: foo/1"}
     end
 
     it "parses success" do
       output = "\"  >>>QNKDIPMNTBVDSUTIDKZZ<<<\\n  \\n    1@@@1@@@foo(1)\\n  \\n    5@@@5@@@foo(5)\\n  \\n  >>>PEDTLWEDSHIFGFIUBTSC<<<\\n\""
       result = CodeRunner.parse_output({output, 0}, ">>>QNKDIPMNTBVDSUTIDKZZ<<<", ">>>PEDTLWEDSHIFGFIUBTSC<<<")
-      assert result == {"", 0}
+      assert result == {:passed, ""}
     end
 
     it "parses multiple test successes and failures" do
       output = "\"  >>>CXHJXJFSWSIWBHVKIOLC<<<\\n  \\n    [1, 1]@@@[1, 1]@@@fib(2)\\n  \\n    [1, 1, 2]@@@[1, 1]@@@fib(3)\\n  \\n    [1, 1, 2, 3, 5]@@@[1, 1]@@@fib(5)\\n  \\n  >>>MVVPSYXKDFEMLPBDBKZB<<<\\n\""
       result = CodeRunner.parse_output({output, 0}, ">>>CXHJXJFSWSIWBHVKIOLC<<<", ">>>MVVPSYXKDFEMLPBDBKZB<<<")
-      assert result == {"Passed:\n  assert fib(2) == [1, 1] #=> [1, 1]\n\nFailed:\n  assert fib(3) == [1, 1, 2] #=> [1, 1]\n  assert fib(5) == [1, 1, 2, 3, 5] #=> [1, 1]", 1}
+      assert result == {:failed, "Passed:\n  assert fib(2) == [1, 1] #=> [1, 1]\n\nFailed:\n  assert fib(3) == [1, 1, 2] #=> [1, 1]\n  assert fib(5) == [1, 1, 2, 3, 5] #=> [1, 1]"}
     end
   end
 
   describe "run" do
     it "runs bad code and captures output" do
-      {output, exit_code} = CodeRunner.run("garbage", %Problem{})
-      assert exit_code == 1
+      {result, output} = CodeRunner.run("garbage", %Problem{})
+      assert result == :failed
       assert output == "** (CompileError) undefined function garbage/0"
     end
 
@@ -54,8 +54,7 @@ defmodule ElixirExperience.CodeRunnerTest do
         ]
       }
 
-      {output, exit_code} = CodeRunner.run(code, problem)
-      assert exit_code == 1
+      {:failed, output} = CodeRunner.run(code, problem)
       assert output == "Passed:\n\n\nFailed:\n  assert foo(10) == \"expected\" #=> nil"
     end
 
@@ -66,8 +65,7 @@ defmodule ElixirExperience.CodeRunnerTest do
         end
       """
 
-      {output, exit_code} = CodeRunner.run(code, %Problem{})
-      assert exit_code == 1
+      {:failed, output} = CodeRunner.run(code, %Problem{})
       assert output == "** (SyntaxError) unexpected token: end"
     end
 
@@ -85,16 +83,14 @@ defmodule ElixirExperience.CodeRunnerTest do
         ]
       }
 
-      {output, exit_code} = CodeRunner.run(code, problem)
-      assert exit_code == 1
+      {:failed, output} = CodeRunner.run(code, problem)
       assert output == "Passed:\n  assert fib(2) == [1, 1] #=> [1, 1]\n\nFailed:\n  assert fib(3) == [1, 1, 2] #=> [1, 1]\n  assert fib(5) == [1, 1, 2, 3, 5] #=> [1, 1]"
     end
 
     Enum.each Problem.load_all, fn(problem) ->
       it "problem number #{problem.number}" do
         problem = unquote(Macro.escape(problem))
-        {output, exit_code} = CodeRunner.run(problem.solution, problem)
-        assert exit_code == 0
+        {:passed, output} = CodeRunner.run(problem.solution, problem)
         assert output == ""
       end
     end

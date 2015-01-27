@@ -1,5 +1,5 @@
 <h3>
-  <%= if @exit_code == 0 do %>
+  <%= if @result == :passed do %>
     Correct!
   <% else %>
     Not quite!
@@ -15,7 +15,7 @@ You submitted:
   <code class="elixir"><%= @code %></code>
 </pre>
 
-<%= unless @exit_code == 0 do %>
+<%= unless @result == :passed do %>
   What went wrong:
   <pre>
     <code class="elixir"><%= @output %></code>

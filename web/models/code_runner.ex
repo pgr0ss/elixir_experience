@@ -17,8 +17,8 @@ defmodule ElixirExperience.CodeRunner do
         after_test: after_test
       ])
 
-    output = Docker.run(code)
-    parse_output(output, before_test, after_test)
+    {output, exit_code} = Docker.run(code)
+    parse_output({output, exit_code}, before_test, after_test)
   end
 
   def parse_output({output, 0}, before_test, after_test) do
@@ -32,18 +32,24 @@ defmodule ElixirExperience.CodeRunner do
     {successes, failures} = Enum.partition(results, fn %{passed: passed} -> passed end)
 
     if Enum.count(failures) == 0 do
-      {"", 0}
+      {:passed, ""}
     else
       output = "Passed:\n#{Enum.map(successes, &format_test/1) |> Enum.join("\n")}\n\nFailed:\n#{Enum.map(failures, &format_test/1) |> Enum.join("\n")}"
-      {output, 1}
+      {:failed, output}
     end
   end
 
   def parse_output({output, 1}, _, _) do
-    {Regex.replace(~r/(nofile:\d+: )|(#{@test_name}\.)|(\n.*)/, output, ""), 1}
+    {:failed, Regex.replace(~r/(nofile:\d+: )|(#{@test_name}\.)|(\n.*)/, output, "")}
   end
 
-  def parse_output(result, _, _), do: result
+  def parse_output({output, 124}, _, _) do
+    {:timedout, output}
+  end
+
+  def parse_output({output, exit_code}, _, _) do
+    {:failed, output}
+  end
 
   defp parse_captures(captures) do
     expected = captures["expected"] |> String.strip |> String.replace("\\", "")
