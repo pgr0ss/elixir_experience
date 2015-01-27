@@ -24,5 +24,5 @@ config :elixir_experience, :github_oauth,
   client_secret: System.get_env("GITHUB_CLIENT_SECRET"),
   redirect_url: "http://elixirexperience.com/github_oauth"
 
-config :elixir_experience, :database,
-  database_url: "ecto://elixir_experience@#{System.get_env("POSTGRES_PORT_5432_TCP_ADDR")}:#{System.get_env("POSTGRES_PORT_5432_TCP_PORT")}/elixir_experience"
+config :elixir_experience, ElixirExperience.Repo,
+  url: "ecto://elixir_experience@#{System.get_env("POSTGRES_PORT_5432_TCP_ADDR")}:#{System.get_env("POSTGRES_PORT_5432_TCP_PORT")}/elixir_experience"

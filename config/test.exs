@@ -11,5 +11,5 @@ config :elixir_experience, :github_oauth,
   client_secret: "61bba5af5544c1af5200c001aad91cd8827917b3",
   redirect_url: "http://localhost:4001/github_oauth"
 
-config :elixir_experience, :database,
-  database_url: "ecto://localhost/elixir_experience"
+config :elixir_experience, ElixirExperience.Repo,
+  url: "ecto://localhost/elixir_experience"

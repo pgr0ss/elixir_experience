@@ -2,8 +2,7 @@ defmodule ElixirExperience.Repo.Migrations.CreateUsers do
   use Ecto.Migration
 
   def up do
-    [
-    """
+    execute """
       CREATE TABLE users (
         id serial primary key,
         avatar_url text,
@@ -11,14 +10,12 @@ defmodule ElixirExperience.Repo.Migrations.CreateUsers do
         github_id bigint,
         login text
       )
-    """,
     """
-      CREATE UNIQUE INDEX ON users (github_id)
-    """
-    ]
+
+    execute "CREATE UNIQUE INDEX ON users (github_id)"
   end
 
   def down do
-    "DROP TABLE users"
+    execute "DROP TABLE users"
   end
 end
