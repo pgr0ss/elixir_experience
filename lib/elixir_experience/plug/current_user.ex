@@ -12,7 +12,6 @@ defmodule ElixirExperience.Plug.CurrentUser do
       user_id ->
         user = ElixirExperience.User.find_by_id(user_id)
         conn
-        |> put_session(:current_user, user)
         |> assign(:current_user, user)
     end
   end
