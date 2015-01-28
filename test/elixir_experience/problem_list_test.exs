@@ -3,12 +3,6 @@ defmodule ElixirExperience.ProblemListTest do
 
   alias ElixirExperience.ProblemList
 
-  describe "number_of_problems" do
-    it "returns the number of problmes" do
-      assert ProblemList.number_of_problems > 2
-    end
-  end
-
   describe "problems" do
     it "returns all of the problems" do
       assert Enum.count(ProblemList.problems) > 2

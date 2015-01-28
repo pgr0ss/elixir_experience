@@ -6,15 +6,6 @@ defmodule ElixirExperience.ProblemControllerTest do
 
   alias ElixirExperience.User
 
-  describe "index" do
-    it "shows a list of problems" do
-      conn = conn(:get, "/problems") |> ElixirExperience.Endpoint.call([])
-
-      assert conn.status == 200
-      assert String.contains?(conn.resp_body, "Problem 3") == true
-    end
-  end
-
   describe "show" do
     it "shows a problem" do
       conn = conn(:get, "/problems/1") |> ElixirExperience.Endpoint.call([])

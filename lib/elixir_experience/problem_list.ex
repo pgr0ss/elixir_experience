@@ -14,8 +14,4 @@ defmodule ElixirExperience.ProblemList do
       Enum.at(list, number - 1)
     end)
   end
-
-  def number_of_problems do
-    Agent.get(@agent_name, fn list -> Enum.count(list) end)
-  end
 end

@@ -31,7 +31,6 @@
         <nav>
           <ul class="nav nav-pills pull-right">
             <li><a href="/">Home</a></li>
-            <li><a href="<%= problem_path(@conn, :index) %>">List of Problems</a></li>
             <%= if @current_user do %>
               <li style="padding: 10px 15px;">
                 <img src="<%= @current_user.avatar_url %>" width=30 height=30 />

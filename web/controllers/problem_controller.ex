@@ -3,10 +3,6 @@ defmodule ElixirExperience.ProblemController do
 
   plug :action
 
-  def index(conn, _params) do
-    render conn, "index.html", number_of_problems: ElixirExperience.ProblemList.number_of_problems
-  end
-
   def show(conn, %{"id" => id_string}) do
     {id, _} = Integer.parse(id_string)
     render conn, "show.html", problem: ElixirExperience.ProblemList.get_problem(id)
