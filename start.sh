@@ -6,6 +6,7 @@ set -e
 docker run \
   --name postgres \
   -d \
+  -v /var/lib/postgresql/data:/var/lib/postgresql/data \
   -e POSTGRES_USER=elixir_experience \
   postgres:9.4
 
