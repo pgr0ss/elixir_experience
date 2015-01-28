@@ -2,6 +2,8 @@ defmodule ElixirExperience.ProblemControllerTest do
   use ExSpec, async: true
   use Plug.Test
 
+  import ElixirExperience.TransactionTestHelper, only: [with_transaction: 1]
+
   alias ElixirExperience.User
 
   describe "index" do
@@ -49,22 +51,24 @@ defmodule ElixirExperience.ProblemControllerTest do
     end
 
     it "creates a solution on success" do
-      user = %User{} |> ElixirExperience.Repo.insert
+      with_transaction do
+        user = %User{} |> ElixirExperience.Repo.insert
 
-      conn = conn(:put, "/problems/1", %{"code" => """
-        def add(x,y), do: x + y
-      """})
-      |> assign(:current_user, user)
-      |> ElixirExperience.Endpoint.call([])
+        conn = conn(:put, "/problems/1", %{"code" => """
+          def add(x,y), do: x + y
+        """})
+        |> assign(:current_user, user)
+        |> ElixirExperience.Endpoint.call([])
 
-      assert conn.status == 200
-      assert String.contains?(conn.resp_body, "Correct!")
+        assert conn.status == 200
+        assert String.contains?(conn.resp_body, "Correct!")
 
-      found_user = User.find_by_id(user.id)
-      solution = found_user.user_solutions |> Enum.at(0)
+        found_user = User.find_by_id(user.id)
+        solution = found_user.user_solutions |> Enum.at(0)
 
-      assert solution.problem_number == 1
-      assert solution.code == "def add(x,y), do: x + y"
+        assert solution.problem_number == 1
+        assert solution.code == "def add(x,y), do: x + y"
+      end
     end
   end
 end

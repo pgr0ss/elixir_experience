@@ -4,7 +4,7 @@ defmodule ElixirExperience.PageController do
   plug :action
 
   def index(conn, _params) do
-    render conn, "index.html"
+    render conn, "index.html", problems: ElixirExperience.ProblemList.problems
   end
 
   def not_found(conn, _params) do

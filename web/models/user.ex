@@ -44,4 +44,16 @@ defmodule ElixirExperience.User do
 
     Repo.one(query)
   end
+
+  def solved?(user, problem) do
+    if user do
+      query = from s in UserSolution,
+        where: s.user_id == ^user.id,
+        where: s.problem_number == ^problem.number
+
+      Repo.one(query) != nil
+    else
+      false
+    end
+  end
 end

@@ -5,6 +5,10 @@ defmodule ElixirExperience.ProblemList do
     Agent.start_link(&ElixirExperience.Problem.load_all/0, name: @agent_name)
   end
 
+  def problems do
+    Agent.get(@agent_name, fn list -> list end)
+  end
+
   def get_problem(number) do
     Agent.get(@agent_name, fn list ->
       Enum.at(list, number - 1)

@@ -67,6 +67,35 @@ defmodule ElixirExperience.UserTest do
     end
   end
 
+  describe "solved?" do
+    it "returns false when the user is nil" do
+      assert User.solved?(nil, %Problem{}) == false
+    end
+
+    it "returns false when there are no user_solutions" do
+      with_transaction do
+        user = %User{} |> ElixirExperience.Repo.insert
+        assert User.solved?(user, %Problem{}) == false
+      end
+    end
+
+    it "returns false when there are no user_solutions for the given problem" do
+      with_transaction do
+        user = %User{} |> ElixirExperience.Repo.insert
+        User.create_solution(user, %Problem{number: 1}, "")
+        assert User.solved?(user, %Problem{number: 2}) == false
+      end
+    end
+
+    it "returns true when there is a user_solutions for the given problem" do
+      with_transaction do
+        user = %User{} |> ElixirExperience.Repo.insert
+        User.create_solution(user, %Problem{number: 1}, "")
+        assert User.solved?(user, %Problem{number: 1}) == true
+      end
+    end
+  end
+
   describe "timestamps" do
     it "records timestamps" do
       with_transaction do
