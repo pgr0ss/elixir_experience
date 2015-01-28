@@ -67,6 +67,38 @@ defmodule ElixirExperience.UserTest do
     end
   end
 
+  describe "solutions" do
+    it "returns [] if the user is nil" do
+      assert User.solutions(nil, %Problem{}) == []
+    end
+
+    it "returns [] when there are no user_solutions" do
+      with_transaction do
+        user = %User{} |> ElixirExperience.Repo.insert
+        assert User.solutions(user, %Problem{}) == []
+      end
+    end
+
+    it "returns [] when there are no user_solutions for the given problem" do
+      with_transaction do
+        user = %User{} |> ElixirExperience.Repo.insert
+        User.create_solution(user, %Problem{number: 1}, "")
+        assert User.solutions(user, %Problem{number: 2}) == []
+      end
+    end
+
+    it "returns the solutions when there are user_solutions for the given problem" do
+      with_transaction do
+        user = %User{} |> ElixirExperience.Repo.insert
+        User.create_solution(user, %Problem{number: 1}, "a")
+        User.create_solution(user, %Problem{number: 1}, "b")
+
+        solutions = User.solutions(user, %Problem{number: 1})
+        assert Enum.map(solutions, fn s -> s.code end) == ["a", "b"]
+      end
+    end
+  end
+
   describe "solved?" do
     it "returns false when the user is nil" do
       assert User.solved?(nil, %Problem{}) == false

@@ -16,7 +16,7 @@
     </th>
   </tr>
   <%= Enum.map @problems, fn(problem) -> %>
-  <% solved = ElixirExperience.User.solved?(@current_user, problem) %>
+  <% solved = User.solved?(@current_user, problem) %>
 
   <%= if solved do %>
   <tr class="success">

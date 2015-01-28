@@ -2,6 +2,17 @@
 
 <%= safe @problem.question %>
 
+<%= if User.solved?(@current_user, @problem) do %>
+  <h4>Previous solutions</h4>
+
+  <%= Enum.map User.solutions(@current_user, @problem), fn solution -> %>
+  <p>Submitted on <%= solution.inserted_at |> Ecto.DateTime.to_date |> Ecto.Date.to_string %>:</p>
+  <pre>
+    <code class="elixir"><%= solution.code %></code>
+  </pre>
+  <% end %>
+<% end %>
+
 <form action="<%= problem_path(@conn, :update, @problem.number) %>" method="post">
   <input type="hidden" name="_method" value="PATCH">
   <textarea name="code" rows="10" cols="50"></textarea>
