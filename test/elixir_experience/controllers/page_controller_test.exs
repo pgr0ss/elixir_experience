@@ -2,8 +2,6 @@ defmodule ElixirExperience.PageControllerTest do
   use ExSpec, async: true
   use Plug.Test
 
-  alias ElixirExperience.User
-
   describe "index" do
     it "shows a list of problems" do
       conn = conn(:get, "/") |> ElixirExperience.Endpoint.call([])
