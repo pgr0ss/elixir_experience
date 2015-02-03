@@ -21,8 +21,8 @@ On OS X, `brew install postgresql`
 To start your new Phoenix application:
 
 1. Install dependencies with `mix deps.get`
-1. Create and migration the database with `mix db.reset`
-2. Start Phoenix with `mix phoenix.server`
+2. Create and migration the database with `mix db.reset`
+3. Start Phoenix with `mix phoenix.server`
 
 Now you can visit `localhost:4000` from your browser.
 
