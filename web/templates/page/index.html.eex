@@ -24,7 +24,7 @@
   <tr>
   <% end %>
 
-    <td><a href="<%= problem_path(@conn, :show, problem.number) %>">Problem <%= problem.number %></a></td>
+    <td><a href="<%= problem_path(@conn, :show, problem.number) %>"><%= Problem.display_number(problem) %></a></td>
     <td><%= problem.short_question %></td>
     <td>
       <%= if solved do %>

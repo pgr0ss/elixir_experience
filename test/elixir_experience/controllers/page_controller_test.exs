@@ -7,7 +7,7 @@ defmodule ElixirExperience.PageControllerTest do
       conn = conn(:get, "/") |> ElixirExperience.Endpoint.call([])
 
       assert conn.status == 200
-      assert String.contains?(conn.resp_body, "Problem 3") == true
+      assert String.contains?(conn.resp_body, "<a href=\"/problems/3\">03</a>") == true
     end
   end
 end

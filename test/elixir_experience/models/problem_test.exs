@@ -11,6 +11,18 @@ defmodule ElixirExperience.ProblemTest do
     end
   end
 
+  describe "display_number" do
+    it "return a two digit number as is" do
+      problem = %Problem{number: 15}
+      assert Problem.display_number(problem) == "15"
+    end
+
+    it "pads numbers less than 10" do
+      problem = %Problem{number: 3}
+      assert Problem.display_number(problem) == "03"
+    end
+  end
+
   describe "load_all" do
     it "loads the problems from disk" do
       problems = Problem.load_all

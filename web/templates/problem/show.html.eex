@@ -1,4 +1,4 @@
-<h4>Problem: <%= @problem.number %></h4>
+<h4>Problem: <%= Problem.display_number(@problem) %></h4>
 
 <%= safe @problem.question %>
 

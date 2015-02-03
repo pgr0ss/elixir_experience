@@ -12,6 +12,12 @@ defmodule ElixirExperience.Problem do
     end)
   end
 
+  def display_number(problem) do
+    problem.number
+    |> Integer.to_string
+    |> String.rjust(2, ?0)
+  end
+
   def short_question(question) do
     short_question = question
     |> String.split("\n")

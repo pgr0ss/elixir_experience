@@ -13,6 +13,8 @@ defmodule ElixirExperience.View do
 
       # Common aliases
       alias Phoenix.Controller.Flash
+
+      alias ElixirExperience.Problem
       alias ElixirExperience.User
     end
   end
