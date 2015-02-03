@@ -47,7 +47,7 @@ defmodule ElixirExperience.CodeRunner do
     {:timedout, output}
   end
 
-  def parse_output({output, exit_code}, _, _) do
+  def parse_output({output, _}, _, _) do
     {:failed, output}
   end
 
