@@ -25,19 +25,19 @@ config :problems,
   %Problem{
     number: 002,
     question: """
-    Write a function num2list that takes a number and returns a string from 1 up to the number joined with commas, e.g:
+    Write a function num_to_list that takes a number and returns a string from 1 up to the number joined with commas, e.g:
     ```elixir
-      num2list(10) #=> \"1,2,3,4,5,6,7,8,9,10\"
+      num_to_list(10) #=> \"1,2,3,4,5,6,7,8,9,10\"
     ```
     """,
     solution: """
-    def num2list(n) do
+    def num_to_list(n) do
       Enum.join(1..n, \",\")
     end
     """,
     tests: [
-      ["num2list(10)", "1,2,3,4,5,6,7,8,9,10"],
-      ["num2list(1)", "1"],
+      ["num_to_list(10)", "1,2,3,4,5,6,7,8,9,10"],
+      ["num_to_list(1)", "1"],
     ]
   },
   %Problem{

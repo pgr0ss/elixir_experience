@@ -19,7 +19,7 @@ defmodule ElixirExperience.ProblemControllerTest do
   describe "update" do
     it "runs code" do
       conn = conn(:put, "/problems/2", %{"code" => """
-        def num2list(n) do
+        def num_to_list(n) do
           Enum.join(1..n, \",\")
         end
       """}) |> ElixirExperience.Endpoint.call([])
@@ -31,14 +31,14 @@ defmodule ElixirExperience.ProblemControllerTest do
 
     it "includes a reason for non-zero exit code" do
       conn = conn(:put, "/problems/2", %{"code" => """
-        def num2list do
+        def num_to_list do
         end
       """}) |> ElixirExperience.Endpoint.call([])
 
       assert conn.status == 200
       assert String.contains?(conn.resp_body, "Not quite!")
       assert String.contains?(conn.resp_body, "What went wrong:")
-      assert String.contains?(conn.resp_body, "<code class=\"elixir\">** (UndefinedFunctionError) undefined function: num2list/1</code>")
+      assert String.contains?(conn.resp_body, "<code class=\"elixir\">** (UndefinedFunctionError) undefined function: num_to_list/1</code>")
     end
 
     it "creates a solution on success" do
