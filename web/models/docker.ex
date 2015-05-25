@@ -1,7 +1,7 @@
 defmodule ElixirExperience.Docker do
   require Logger
 
-  @image_name "trenpixster/elixir"
+  @image_name "trenpixster/elixir:1.0.4"
   @test_template "code_templates/test.txt.eex"
   @test_name "ElixirExperienceTest"
 
@@ -16,7 +16,9 @@ defmodule ElixirExperience.Docker do
 
   defp image_exists? do
     {output, 0} = System.cmd("docker", ["images"], stderr_to_stdout: true)
-    String.contains?(output, @image_name)
+    output
+    |> String.replace(~r" +", ":")
+    |> String.contains?(@image_name)
   end
 
   def run(code, timeout \\ 5000) do
