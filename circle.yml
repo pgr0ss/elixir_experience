@@ -6,6 +6,11 @@ machine:
 dependencies:
   pre:
     - ./ci_prepare.sh
+  cache_directories:
+    - ~/dependencies
+    - ~/.mix
+    - _build
+    - deps
   post:
     - mix docker.pull
 database:
