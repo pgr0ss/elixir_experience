@@ -7,7 +7,7 @@ defmodule ElixirExperience.DockerTest do
     it "runs a bad code and captures output" do
       {output, exit_code} = Docker.run("garbage")
       assert exit_code == 1
-      assert output == "** (CompileError) nofile:1: undefined function garbage/0\n    (elixir) lib/code.ex:140: Code.eval_string/3"
+      assert String.contains?(output, "** (CompileError) nofile:1: undefined function garbage/0")
     end
 
     it "runs code and captures output" do
