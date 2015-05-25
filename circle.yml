@@ -2,7 +2,7 @@ machine:
   services:
     - docker
   environment:
-    PATH="$HOME/dependencies/erlang/bin:$HOME/dependencies/elixir/bin:$PATH"
+    PATH: "$HOME/dependencies/erlang/bin:$HOME/dependencies/elixir/bin:$PATH"
 dependencies:
   pre:
     - ci_prepare.sh
