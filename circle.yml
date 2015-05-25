@@ -12,11 +12,11 @@ dependencies:
     - _build
     - deps
   post:
+    - mix deps.get
     - mix docker.pull
 database:
   override:
     - mix db.reset
 test:
   override:
-    - mix deps.get
     - mix test
