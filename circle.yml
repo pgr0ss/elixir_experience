@@ -5,7 +5,7 @@ machine:
     PATH: "$HOME/dependencies/erlang/bin:$HOME/dependencies/elixir/bin:$PATH"
 dependencies:
   pre:
-    - ci_prepare.sh
+    - ./ci_prepare.sh
   post:
     - mix docker.pull
 database:
