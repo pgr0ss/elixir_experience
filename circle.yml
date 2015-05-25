@@ -1,0 +1,17 @@
+machine:
+  services:
+    - docker
+  environment:
+    PATH="$HOME/dependencies/erlang/bin:$HOME/dependencies/elixir/bin:$PATH"
+dependencies:
+  pre:
+    - ci_prepare.sh
+  post:
+    - mix docker.pull
+database:
+  override:
+    - mix db.reset
+test:
+  override:
+    - mix deps.get
+    - mix test
