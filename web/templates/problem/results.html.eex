@@ -23,3 +23,7 @@ You submitted:
 <% end %>
 
 <a href="<%= problem_path(@conn, :show, @problem.number) %>">Back to problem</a>
+
+<%= if show_next_button?(@result, @problem) do %>
+  <a class="pull-right" href="<%= problem_path(@conn, :show, @problem.number + 1) %>">Next problem</a>
+<% end %>
