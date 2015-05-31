@@ -53,6 +53,7 @@ defmodule ElixirExperience.ProblemControllerTest do
 
         assert conn.status == 200
         assert String.contains?(conn.resp_body, "Correct!")
+        assert String.contains?(conn.resp_body, "Next problem")
 
         found_user = User.find_by_id(user.id)
         solution = found_user.user_solutions |> Enum.at(0)
