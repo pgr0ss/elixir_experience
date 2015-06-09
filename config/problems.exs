@@ -249,9 +249,9 @@ config :problems,
     end
     """,
     tests: [
-      ["anagrams([\"sleet\", \"slete\", \"steel\", \"wran\", \"warn\", \"vowel\", \"wolve\"]) |> Enum.sort", [["steel", "slete", "sleet"], ["warn", "wran"], ["wolve", "vowel"]]],
-     ["anagrams([\"tower\", \"wrote\", \"revisit\", \"visiter\", \"review\", \"viewer\"]) |> Enum.sort", [["viewer", "review"], ["visiter", "revisit"], ["wrote", "tower"]]],
-     ["anagrams([\"reweigh\", \"weigher\", \"rove\", \"over\", \"mixer\", \"remix\", \"misread\", \"sidearm\", \"agree\", \"eager\"]) |> Enum.sort", [["eager", "agree"], ["over", "rove"], ["remix", "mixer"], ["sidearm", "misread"], ["weigher", "reweigh"]]],
+      [~s/anagrams(["sleet", "slete", "steel", "wran", "warn", "vowel", "wolve"]) |> Enum.map(&(Enum.sort(&1))) |> Enum.sort/, [["sleet", "slete", "steel"], ["vowel", "wolve"], ["warn", "wran"]]],
+      [~s/anagrams(["tower", "wrote", "revisit", "visiter", "review", "viewer"]) |> Enum.map(&(Enum.sort(&1))) |> Enum.sort/, [["review", "viewer"], ["revisit", "visiter"], ["tower", "wrote"]]],
+      [~s/anagrams(["reweigh", "weigher", "rove", "over", "mixer", "remix", "misread", "sidearm", "agree", "eager"]) |> Enum.map(&(Enum.sort(&1))) |> Enum.sort/, [["agree", "eager"], ["misread", "sidearm"], ["mixer", "remix"], ["over", "rove"], ["reweigh", "weigher"]]]
     ]
   },
   %Problem{
