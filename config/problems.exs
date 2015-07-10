@@ -187,7 +187,7 @@ config :problems,
     Write a checksum function, that computes a [parity byte](http://en.wikipedia.org/wiki/Checksum#Parity_byte_or_parity_word) checksum of a string, e.g:
 
     ```elixir
-      checksum("Elixir is fun.") #=> 95
+      checksum("Elixir is fun.") #=> 106
     ```
     """,
     solution: """
