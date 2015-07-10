@@ -81,7 +81,7 @@ config :problems,
   %Problem{
     number: 005,
     question: """
-    Write a function palindrome? that checks if a given string is a palindrome. 
+    Write a function palindrome? that checks if a given string is a palindrome.
     A palindrome is a word, phrase, number, or other sequence of characters which
     reads the same backward or forward, ignoring non-word characters (like spaces, comma, exclamation marks, etc.)
     e.g
